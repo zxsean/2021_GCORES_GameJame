@@ -2,41 +2,10 @@
 using System;
 using UnityEngine;
 
-/// <summary>
-/// 格子数据
-/// </summary>
-[Serializable]
-public class GridData
-{
-    public int levelId;
-    public int type;
-    public int row;
-    public int col;
-    public string prefab;
-    public float posX;
-    public float posY;
-    public bool canPass;
-}
-
-[Serializable]
 public class MovedBarrierGridData : GridData
 {
     public Vector2[] path;
     public float speed;
-}
-
-/// <summary>
-/// 玩家数据
-/// </summary>
-public class PlayerData
-{
-    public int levelId;
-    public int row;
-    public int col;
-    public string prefab;
-    public float speed;
-    public float posX;
-    public float posY;
 }
 
 /// <summary>
@@ -54,7 +23,7 @@ public class MonsterData
 /// <summary>
 /// 关卡数据
 /// </summary>
-public class LevelData
+public class LevelData : MonoBehaviour
 {
     public int levelId;
     public int rows;

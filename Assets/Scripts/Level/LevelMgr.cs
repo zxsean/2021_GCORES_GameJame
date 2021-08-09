@@ -12,6 +12,17 @@ public static class LevelMgr
     
     private static List<Level> levels = new List<Level>();
 
+    private static List<GameObject> levelAssets = new List<GameObject>();
+
+    public static void LoadLevels(GameObject[] assets)
+    {
+        for (var i = 0; i < assets.Length; ++i)
+        {
+            var ins = Object.Instantiate(assets[i]);
+            levelAssets.Add(ins);
+        }
+    }
+    
     /// <summary>
     /// 根据关卡数据创建关卡
     /// </summary>

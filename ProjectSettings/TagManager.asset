@@ -25,10 +25,10 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
+  - Floor
+  - Front
+  - Entity
+  - Effect
   - 
   - 
   - 
@@ -40,4 +40,16 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Floor
+    uniqueID: 2425651459
+    locked: 0
+  - name: Front
+    uniqueID: 4250941897
+    locked: 0
+  - name: Entity
+    uniqueID: 4189426099
+    locked: 0
+  - name: Effect
+    uniqueID: 610394805
     locked: 0

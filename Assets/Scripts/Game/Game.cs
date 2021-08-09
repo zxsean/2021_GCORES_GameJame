@@ -9,6 +9,11 @@ public static class Game
         Root = GameObject.Find("Game").transform;
     }
 
+    public static void Start()
+    {
+        LevelMgr.EnterLevel(0);
+    }
+
     public static void Update()
     {
         
