@@ -5,9 +5,6 @@ using UnityEngine;
 /// </summary>
 public class GridData : MonoBehaviour
 {
-    public int levelId;
-    public GridType type;
     public int row;
     public int col;
-    public string prefab;
 }

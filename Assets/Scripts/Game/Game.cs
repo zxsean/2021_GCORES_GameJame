@@ -11,12 +11,12 @@ public static class Game
 
     public static void Start()
     {
-        LevelMgr.EnterLevel(0);
+        LevelMgr.CreateAndEnterLevel(0);
     }
 
     public static void Update()
     {
-        
+        LevelMgr.CurLevel.Update();
     }
 
     public static void Destroy()

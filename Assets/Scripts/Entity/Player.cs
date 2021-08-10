@@ -1,46 +1,17 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
-public class Player : IEntity
+public class Player : Grid, IEntity, IUpdatable
 {
     public bool IsDestroy { get; private set; }
-
-    public float CurPosX
-    {
-        get => curPosX;
-        set => curPosX = value;
-    }
-
-    public float CurPosY { 
-        get => curPosY;
-        set => curPosY = value;
-    }
-    
-    public int Row { get; private set; }
-    public int Col { get; private set; }
     public float Speed { get; private set; }
-    public GameObject gameObject { get; set; }
-    public Transform transform { get; set; }
-
-    private float curPosX;
-    private float curPosY;
-    public Bounds Bounds => new Bounds(new Vector3(curPosX, curPosY), Vector3.one);
     private float CurSpeed { get; set; }
 
-    public Player(PlayerData data)
+    public Player(GameObject asset) : base(asset)
     {
-        Row = data.row;
-        Col = data.col;
+        var data = (PlayerData) RawData;
         Speed = data.speed;
         CurSpeed = Speed;
-        LevelMgr.GetPosByRowAndCol(data.levelId, Row, Col, out curPosX, out curPosY);
-        
-        var prefab = Resources.Load(data.prefab);
-        gameObject = Object.Instantiate(
-            prefab, 
-            new Vector3(curPosX, curPosY), 
-            Quaternion.identity, 
-            LevelMgr.CurLevel.PlayerRoot) as GameObject;
-        transform = gameObject.transform;
     }
 
     public void Update()
@@ -82,14 +53,34 @@ public class Player : IEntity
         {
             offsetX += CurSpeed * Time.deltaTime;
         }
-
-        var bounds = Bounds;
-        bounds.center = new Vector3(curPosX + offsetX, curPosY + offsetY);
-        var grid = GridMgr.GetIntersectedGridByBounds(bounds);
-        if (grid != null && grid.CanPass)
+        
+        var bounds = Renderer.bounds;
+        bounds.center = new Vector3(bounds.center.x + offsetX, bounds.center.y + offsetY);
+        
+        // check level contains
+        if (!LevelMgr.CurLevel.Contains(bounds))
         {
-            curPosX += offsetX;
-            curPosY += offsetY;
+            offsetX = 0;
+            offsetY = 0;
         }
+        
+        // check barrier
+        FloorMgr.GetAll<Barrier>(out var list);
+        for (var i = 0; i < list.Count; ++i)
+        {
+            if (list[i].InRange(bounds))
+            {
+                offsetX = 0;
+                offsetY = 0;
+                break;
+            }
+        }
+
+        CurPosX += offsetX;
+        CurPosY += offsetY;
+        var pos = transform.localPosition;
+        pos.x = CurPosX;
+        pos.y = CurPosY;
+        transform.localPosition = pos;
     }
 }

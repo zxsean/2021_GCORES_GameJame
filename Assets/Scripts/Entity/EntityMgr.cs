@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public static class EntityMgr
 {
@@ -6,10 +7,28 @@ public static class EntityMgr
     
     private static List<IEntity> entities = new List<IEntity>();
     
-    public static void CreatePlayer(PlayerData playerData)
+    public static void CreateEntities(Transform assets)
     {
-        Player = new Player(playerData);
-        entities.Add(Player);
+        for (var i = 0; i < assets.childCount; ++i)
+        {
+            CreateEntity(assets.GetChild(i));
+        }
+    }
+
+    public static void CreateEntity(Transform asset)
+    {
+        var data = asset.GetComponent<GridData>();
+        IEntity entity = null;
+        if (data is PlayerData)
+        {
+            entity = new Player(asset.gameObject);
+            Player = (Player) entity;
+        }
+        else if (data is MonsterData)
+        {
+            
+        }
+        entities.Add(entity);
     }
 
     public static void CreateMonsters(MonsterData[] monsterData)
@@ -21,6 +40,18 @@ public static class EntityMgr
     {
         
     }
+
+    public static void GetAll<T>(out List<T> list) where T : IEntity
+    {
+        list = new List<T>();
+        for (var i = 0; i < entities.Count; ++i)
+        {
+            if (entities[i] is T)
+            {
+                list.Add((T)entities[i]);
+            }
+        }
+    }
     
     public static List<IEntity> GetAllEntity()
     {
@@ -31,19 +62,25 @@ public static class EntityMgr
     {
         for (var i = 0; i < entities.Count; ++i)
         {
-            if (!entities[i].IsDestroy)
+            var entity = entities[i];
+            if (entity is IUpdatable updatable)
             {
-                entities[i].Update();
+                updatable.Update();
             }
         }
         
         // 清理掉被标记为删除的Entity
-        for (var i = entities.Count; i >= 0; --i)
+        for (var i = entities.Count - 1; i >= 0; --i)
         {
-            if (entities[i].IsDestroy)
+            if (entities[i] is IUpdatable updatable && updatable.IsDestroy)
             {
                 entities.RemoveAt(i);
             }
         }
+    }
+
+    public static void Clear()
+    {
+        entities.Clear();
     }
 }
