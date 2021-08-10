@@ -1,11 +1,14 @@
 ﻿using UnityEngine;
 
-public class MovedBarrier: Barrier, IUpdatable
+public class MovedBarrier: Barrier, IUpdatable, IMovedFloor
 {
-    public Vector2[] Path { get; set; }
-    public float Speed { get; set; }
+    public Vector2[] Path { get; private set; }
+    public float Speed { get; private set; }
     public bool IsDestroy { get; private set; }
-    
+    public float SpeedFactor { get; set; }
+    public float SpeedDecayStartTime { get; set; }
+    public float SpeedDecayTime { get; set; }
+
     private int CurPathIdx { get; set; }
 
     public MovedBarrier(GameObject asset) : base(asset)
@@ -24,11 +27,17 @@ public class MovedBarrier: Barrier, IUpdatable
 
     public void Update()
     {
+        // calc decay
+        if (Time.realtimeSinceStartup - SpeedDecayStartTime >= SpeedDecayTime)
+        {
+            SpeedFactor = 1;
+        }
+        
         // move
         var nextPos = Path[CurPathIdx + 1];
         var dir = (nextPos - Path[CurPathIdx]).normalized;
-        var offsetX = dir.x * Speed * Time.deltaTime;
-        var offsetY = dir.y * Speed * Time.deltaTime;
+        var offsetX = dir.x * Speed * SpeedFactor * Time.deltaTime;
+        var offsetY = dir.y * Speed * SpeedFactor * Time.deltaTime;
         CurPosX += offsetX;
         CurPosY += offsetY;
         if (dir.x * (CurPosX - nextPos.x) > 0.0f || 

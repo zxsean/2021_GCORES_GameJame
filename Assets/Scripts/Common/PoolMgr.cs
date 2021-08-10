@@ -1,0 +1,54 @@
+using System;
+using System.Collections.Generic;
+
+public static class PoolMgr<T>
+{
+    private class PoolObj
+    {
+        public T obj;
+        public bool inUse;
+    }
+
+    private static Dictionary<string, List<PoolObj>> pool = new Dictionary<string, List<PoolObj>>();
+
+    public static T Get(string name, Func<T> alloc)
+    {
+        if (pool.TryGetValue(name, out var list))
+        {
+            for (var i = 0; i < list.Count; ++i)
+            {
+                if (!list[i].inUse)
+                {
+                    list[i].inUse = true;
+                    return list[i].obj;
+                }
+            }
+        }
+
+        list = new List<PoolObj>();
+        var obj = alloc();
+        list.Add(new PoolObj
+        {
+            obj = obj,
+            inUse = true
+        });
+        pool.Add(name, list);
+        return obj;
+    }
+
+    public static void Return(string name, T obj)
+    {
+        if (!pool.TryGetValue(name, out var list))
+        {
+            return;
+        }
+        
+        for (var i = 0; i < list.Count; ++i)
+        {
+            if (list[i].obj.Equals(obj))
+            {
+                list[i].inUse = false;
+            }
+        }
+    }
+}

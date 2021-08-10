@@ -17,6 +17,13 @@ public enum FloorType
     TimeStopFruit,
 }
 
+public interface IMovedFloor : IFloor
+{
+    float SpeedFactor { get; set; }
+    float SpeedDecayStartTime { get; set; }
+    float SpeedDecayTime { get; set; }
+}
+
 public interface IFloor
 {
     FloorType Type { get; }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class TimeStopFruit : Grid, IFloor, IUpdatable
 {
@@ -27,7 +28,11 @@ public class TimeStopFruit : Grid, IFloor, IUpdatable
         {
             if (list[i].InRange(Renderer.bounds))
             {
-                
+                var effect = EffectMgr.CreateTargetEffect<Player, TimeStopEffect>(list[i]);
+                effect.Duration = Duration;
+                effect.Radius = Radius;
+                effect.DecayTime = DecayTime;
+                effect.Target = list[i];
             }
         }
     }

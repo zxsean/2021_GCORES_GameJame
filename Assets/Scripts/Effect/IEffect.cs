@@ -1,4 +1,12 @@
-﻿public interface IEffect
+﻿using UnityEngine;
+
+public interface IEffectTarget
 {
-    bool IsSingle { get; }
+    
+}
+
+public interface IEffect
+{
+    void Reset();
+    void Destroy();
 }

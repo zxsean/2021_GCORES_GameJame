@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : Grid, IEntity, IUpdatable
+public class Player : Grid, IEntity, IUpdatable, IEffectTarget
 {
     public bool IsDestroy { get; private set; }
     public float Speed { get; private set; }

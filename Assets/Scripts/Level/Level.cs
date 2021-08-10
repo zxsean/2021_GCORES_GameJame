@@ -42,6 +42,7 @@ public class Level
     {
         FloorMgr.Update();
         EntityMgr.Update();
+        EffectMgr.Update();
     }
 
     public void Exit()
@@ -49,6 +50,7 @@ public class Level
         gameObject.SetActive(false);
         FloorMgr.Clear();
         EntityMgr.Clear();
+        EffectMgr.Clear();
     }
 
     public bool Contains(Bounds bounds)
