@@ -1,31 +1,31 @@
 ﻿using UnityEngine;
 
-public class MovedBarrier: Barrier, IUpdatable, IMovatable
+public class MovedSpike : Spike, IUpdatable, IMovatable
 {
-    public Vector2[] Path { get; private set; }
-    public float Speed { get; private set; }
-    public bool IsDestroy { get; private set; }
     public float SpeedFactor { get; set; }
     public float SpeedDecayStartTime { get; set; }
     public float SpeedDecayTime { get; set; }
-
+    
+    public Vector2[] Path { get; private set; }
+    public float Speed { get; private set; }
+    
     private int CurPathIdx { get; set; }
 
-    public MovedBarrier(GameObject asset) : base(asset)
+    public MovedSpike(GameObject asset) : base(asset)
     {
-        var barrierData = (MovedBarrierData)RawData;
-        Path = new Vector2[barrierData.path.Length];
+        var data = (MovedSpikeData)RawData;
+        Path = new Vector2[data.path.Length];
         for (var i = 0; i < Path.Length; ++i)
         {
-            var dataPos = barrierData.path[i];
+            var dataPos = data.path[i];
             LevelMgr.GetPosByRowAndCol(dataPos.x, dataPos.y, out var path);
             Path[i] = path;
         }
-        Speed = barrierData.speed;
+        Speed = data.speed;
         CurPathIdx = 0;
     }
 
-    public void Update()
+    public override void Update()
     {
         // calc decay
         if (Time.realtimeSinceStartup - SpeedDecayStartTime >= SpeedDecayTime)
@@ -52,19 +52,9 @@ public class MovedBarrier: Barrier, IUpdatable, IMovatable
                 CurPathIdx = 0;
             }
         }
-
-        // 如果碰到了Entity，则强制位移Entity
-        var entities = EntityMgr.GetAllEntity();
-        for (var i = 0; i < entities.Count; ++i)
-        {
-            if (entities[i] is IGrid grid && grid.InRange(Renderer.bounds))
-            {
-                //多推出一点距离保证不会被粘住
-                grid.CurPosX += offsetX + dir.x * 0.1f;
-                grid.CurPosY += offsetY + dir.y * 0.1f;
-            }
-        }
-
+        
+        base.Update();
+        
         var pos = transform.localPosition;
         pos.x = CurPosX;
         pos.y = CurPosY;

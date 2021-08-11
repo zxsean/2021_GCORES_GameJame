@@ -3,7 +3,7 @@
 /// <summary>
 /// Grid基类
 /// </summary>
-public class Grid
+public class Grid : IGrid
 {
     /// <summary>
     /// 中心所在行
@@ -44,7 +44,7 @@ public class Grid
         LevelMgr.GetPosByRowAndCol(Row, Col, out var curPox);
         CurPosX = curPox.x;
         CurPosY = curPox.y;
-        
+
         gameObject = asset;
         transform = asset.transform;
         Renderer = asset.GetComponent<Renderer>();

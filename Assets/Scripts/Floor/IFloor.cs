@@ -15,13 +15,21 @@ public enum FloorType
     Flyer,
     // 时停果实
     TimeStopFruit,
+    // 触发器
+    Trigger,
+    // 幻象生成点
+    IllusionGen,
+    // 地刺陷阱
+    SpikeTrap,
+    // 反转陷阱
+    RevertTrap
 }
 
-public interface IMovedFloor : IFloor
+public interface ITriggerFloor : IFloor
 {
-    float SpeedFactor { get; set; }
-    float SpeedDecayStartTime { get; set; }
-    float SpeedDecayTime { get; set; }
+    int TriggerId { get; }
+
+    bool Trigger(ITriggerGrid trigger);
 }
 
 public interface IFloor

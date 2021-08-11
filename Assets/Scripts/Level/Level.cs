@@ -11,6 +11,7 @@ public class Level
     public Transform transform { get; private set; }
     public Transform FloorRoot { get; private set; }
     public Transform EntityRoot { get; private set; }
+    public Transform EffectRoot { get; private set; }
     
     private Bounds Bounds { get; set; }
 
@@ -24,6 +25,7 @@ public class Level
         transform = asset.transform;
         FloorRoot = transform.Find("Floor");
         EntityRoot = transform.Find("Entity");
+        EffectRoot = transform.Find("Effect");
         
         Bounds = new Bounds(Vector3.zero, new Vector3(Cols, Rows, 1.0f));
     }

@@ -8,6 +8,7 @@ using UnityEngine;
 public static class FloorMgr
 {
     private static List<IFloor> floors = new List<IFloor>();
+    private static Dictionary<int, ITriggerFloor> triggerFloors = new Dictionary<int, ITriggerFloor>();
 
     public static void CreateFloors(Transform assets)
     {
@@ -30,13 +31,31 @@ public static class FloorMgr
                 floor = new MovedBarrier(asset.gameObject);
                 break;
             case FloorType.Spike:
+                floor = new Spike(asset.gameObject);
                 break;
             case FloorType.MovedSpike:
+                floor = new MovedSpike(asset.gameObject);
                 break;
             case FloorType.Flyer:
                 break;
+            case FloorType.TimeStopFruit:
+                floor = new TimeStopFruit(asset.gameObject);
+                break;
+            case FloorType.Trigger:
+                floor = new Trigger(asset.gameObject);
+                break;
+            case FloorType.IllusionGen:
+                floor = new IllusionGen(asset.gameObject);
+                break;
+            case FloorType.SpikeTrap:
+                floor = new SpikeTrap(asset.gameObject);
+                break;
         }
         floors.Add(floor);
+        if (floor is ITriggerFloor triggerFloor)
+        {
+            triggerFloors.Add(triggerFloor.TriggerId, triggerFloor);
+        }
     }
     
     public static void Update()
@@ -65,7 +84,7 @@ public static class FloorMgr
         floors.Clear();
     }
 
-    public static void GetAll<T>(out List<T> list) where T : IFloor
+    public static void GetAll<T>(out List<T> list)
     {
         list = new List<T>();
         for (var i = 0; i < floors.Count; ++i)
@@ -75,5 +94,11 @@ public static class FloorMgr
                 list.Add((T)floors[i]);
             }
         }
+    }
+
+    public static ITriggerFloor GetTrigger(int triggerId)
+    {
+        var floor = triggerFloors[triggerId];
+        return floor;
     }
 }

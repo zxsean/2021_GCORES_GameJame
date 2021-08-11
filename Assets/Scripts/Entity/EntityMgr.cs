@@ -31,6 +31,26 @@ public static class EntityMgr
         entities.Add(entity);
     }
 
+    public static T GetOrCreateEntity<T>() where T : IEntity, new()
+    {
+        for (var i = 0; i < entities.Count; ++i)
+        {
+            if (entities[i] is T)
+            {
+                return (T)entities[i];
+            }
+        }
+
+        var entity = new T();
+        entities.Add(entity);
+        return entity;
+    }
+
+    public static void DestroyEntity()
+    {
+        
+    }
+
     public static void CreateMonsters(MonsterData[] monsterData)
     {
         if (monsterData == null) return;
@@ -41,7 +61,7 @@ public static class EntityMgr
         
     }
 
-    public static void GetAll<T>(out List<T> list) where T : IEntity
+    public static void GetAll<T>(out List<T> list)
     {
         list = new List<T>();
         for (var i = 0; i < entities.Count; ++i)

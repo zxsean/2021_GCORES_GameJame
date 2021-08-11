@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : Grid, IEntity, IUpdatable, IEffectTarget
+public class Player : Grid, IEntity, IUpdatable, IEffectTarget, IPlayer
 {
+    public int Hp { get; set; }
     public bool IsDestroy { get; private set; }
+    public bool IsActive { get; private set; }
     public float Speed { get; private set; }
     private float CurSpeed { get; set; }
 
@@ -12,6 +14,8 @@ public class Player : Grid, IEntity, IUpdatable, IEffectTarget
         var data = (PlayerData) RawData;
         Speed = data.speed;
         CurSpeed = Speed;
+        Hp = data.hp;
+        IsActive = true;
     }
 
     public void Update()
@@ -23,12 +27,18 @@ public class Player : Grid, IEntity, IUpdatable, IEffectTarget
         ProcessInputs();
     }
 
-    private void ProcessStates()
+    protected virtual void ProcessStates()
     {
-        
+        if (Hp <= 0)
+        {
+            gameObject.SetActive(false);
+            IsActive = false;
+            // 玩家死亡 游戏结束
+            IsDestroy = true;
+        }
     }
 
-    private void ProcessInputs()
+    protected virtual void ProcessInputs()
     {
         var offsetX = 0.0f;
         var offsetY = 0.0f;
