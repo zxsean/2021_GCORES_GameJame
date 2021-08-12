@@ -36,8 +36,6 @@ public static class FloorMgr
             case FloorType.MovedSpike:
                 floor = new MovedSpike(asset.gameObject);
                 break;
-            case FloorType.Flyer:
-                break;
             case FloorType.TimeStopFruit:
                 floor = new TimeStopFruit(asset.gameObject);
                 break;
@@ -49,6 +47,9 @@ public static class FloorMgr
                 break;
             case FloorType.SpikeTrap:
                 floor = new SpikeTrap(asset.gameObject);
+                break;
+            case FloorType.RevertTrap:
+                floor = new RevertTrap(asset.gameObject);    
                 break;
         }
         floors.Add(floor);

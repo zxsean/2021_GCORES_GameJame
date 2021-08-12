@@ -13,26 +13,28 @@ public static class PoolMgr<T>
 
     public static T Get(string name, Func<T> alloc)
     {
-        if (pool.TryGetValue(name, out var list))
+        if (!pool.TryGetValue(name, out var list))
         {
-            for (var i = 0; i < list.Count; ++i)
+            list = new List<PoolObj>();
+            pool.Add(name, list);
+        }
+        
+        for (var i = 0; i < list.Count; ++i)
+        {
+            if (!list[i].inUse)
             {
-                if (!list[i].inUse)
-                {
-                    list[i].inUse = true;
-                    return list[i].obj;
-                }
+                list[i].inUse = true;
+                return list[i].obj;
             }
         }
 
-        list = new List<PoolObj>();
+        
         var obj = alloc();
         list.Add(new PoolObj
         {
             obj = obj,
             inUse = true
         });
-        pool.Add(name, list);
         return obj;
     }
 

@@ -26,7 +26,11 @@ public static class EntityMgr
         }
         else if (data is MonsterData)
         {
-            
+            entity = new Monster(asset.gameObject);
+        }
+        else if (data is BossData)
+        {
+            entity = new Boss(asset.gameObject);
         }
         entities.Add(entity);
     }

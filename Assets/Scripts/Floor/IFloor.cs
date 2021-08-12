@@ -11,8 +11,6 @@ public enum FloorType
     Spike,
     // 移动尖刺
     MovedSpike,
-    // 飞行物
-    Flyer,
     // 时停果实
     TimeStopFruit,
     // 触发器

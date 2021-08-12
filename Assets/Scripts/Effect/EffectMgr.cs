@@ -88,4 +88,16 @@ public static class EffectMgr
         effects.Clear();
         targetEffects.Clear();
     }
+    
+    public static void GetAll<T>(out List<T> list)
+    {
+        list = new List<T>();
+        for (var i = 0; i < effects.Count; ++i)
+        {
+            if (effects[i] is T)
+            {
+                list.Add((T)effects[i]);
+            }
+        }
+    }
 }
