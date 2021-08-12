@@ -40,6 +40,7 @@ public class Level
         gameObject.SetActive(true);
     }
     
+    
     public void Update()
     {
         FloorMgr.Update();
@@ -50,6 +51,11 @@ public class Level
     public void Exit()
     {
         gameObject.SetActive(false);
+        Clear();
+    }
+
+    public void Clear()
+    {
         FloorMgr.Clear();
         EntityMgr.Clear();
         EffectMgr.Clear();

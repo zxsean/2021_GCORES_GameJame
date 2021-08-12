@@ -35,6 +35,7 @@ public class Player : Grid, IEntity, IUpdatable, IEffectTarget, IPlayer
             IsActive = false;
             // 玩家死亡 游戏结束
             IsDestroy = true;
+            LevelMgr.ReEnter();
         }
     }
 

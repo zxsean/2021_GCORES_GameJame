@@ -49,7 +49,10 @@ public static class FloorMgr
                 floor = new SpikeTrap(asset.gameObject);
                 break;
             case FloorType.RevertTrap:
-                floor = new RevertTrap(asset.gameObject);    
+                floor = new RevertTrap(asset.gameObject); 
+                break;
+            case FloorType.Exit:
+                floor = new Exit(asset.gameObject);
                 break;
         }
         floors.Add(floor);

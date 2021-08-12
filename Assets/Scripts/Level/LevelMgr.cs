@@ -16,11 +16,7 @@ public static class LevelMgr
 
     public static void LoadLevels(GameObject[] assets)
     {
-        for (var i = 0; i < assets.Length; ++i)
-        {
-            var ins = Object.Instantiate(assets[i], Vector3.zero, Quaternion.identity, Game.Root);
-            levelAssets.Add(ins);
-        }
+        levelAssets.AddRange(assets);
     }
 
     /// <summary>
@@ -31,16 +27,61 @@ public static class LevelMgr
     {
         CurLevel?.Exit();
 
+        if (levelId >= levelAssets.Count)
+        {
+            // 已通过最终关，播放游戏Ending
+            Game.End();
+            return;
+        }
+        
         var asset = levelAssets[levelId];
-        var level = new Level(asset);
+        var ins = Object.Instantiate(asset, Vector3.zero, Quaternion.identity, Game.Root);
+        var level = new Level(ins);
         levels.Add(level);
         CurLevel = level;
+        CurLevelId = levelId;
         CurLevel.Enter();
     }
 
-    public static Level GetLevel(int levelId)
+    public static void ReEnter()
     {
-        return levels[levelId];
+        CurLevel.Clear();
+        levels.Remove(CurLevel);
+        Object.Destroy(CurLevel.gameObject);
+        CurLevel = null;
+        CreateAndEnterLevel(CurLevelId);
+    }
+
+    /// <summary>
+    /// 下一关
+    /// </summary>
+    public static void NextLevel()
+    {
+        CreateAndEnterLevel(CurLevelId + 1);
+    }
+
+    public static void ReStart()
+    {
+        Clear();
+        CreateAndEnterLevel(0);
+    }
+
+    public static void Update()
+    {
+        CurLevel?.Update();
+    }
+
+    public static void Clear()
+    {
+        CurLevel.Exit();
+        for (var i = 0; i < levels.Count; ++i)
+        {
+            var level = levels[i];
+            Object.Destroy(level.gameObject);
+        }
+        levels.Clear();
+        CurLevel = null;
+        CurLevelId = 0;
     }
 
     public static void GetPosByRowAndCol(int row, int col, out Vector2 pos)

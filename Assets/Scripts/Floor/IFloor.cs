@@ -20,7 +20,9 @@ public enum FloorType
     // 地刺陷阱
     SpikeTrap,
     // 反转陷阱
-    RevertTrap
+    RevertTrap,
+    // 出口
+    Exit
 }
 
 public interface ITriggerFloor : IFloor
