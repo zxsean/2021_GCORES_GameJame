@@ -70,6 +70,12 @@ public class TimeStopEffect : IEffect, IUpdatable
 
         var bounds = ((IGrid) Target).Renderer.bounds;
         transform.localPosition = bounds.center;
+        
+        // 先用顶点颜色来模拟淡出效果
+        var spRenderer = Renderer as SpriteRenderer;
+        var color = spRenderer.color;
+        color.a = Mathf.Lerp(1, 0, (Time.realtimeSinceStartup - startTime) / Duration);
+        spRenderer.color = color;
     }
 
     public void Reset()

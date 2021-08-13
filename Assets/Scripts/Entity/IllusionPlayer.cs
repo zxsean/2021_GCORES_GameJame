@@ -96,6 +96,12 @@ public class IllusionPlayer : IGrid, IEntity, IUpdatable, IEffectTarget, IPlayer
         pos.x = CurPosX;
         pos.y = CurPosY;
         transform.localPosition = pos;
+        
+        // 先用顶点颜色来模拟淡出效果
+        var spRenderer = Renderer as SpriteRenderer;
+        var color = spRenderer.color;
+        color.a = Mathf.Lerp(1, 0, (Time.realtimeSinceStartup - startTime) / Duration);
+        spRenderer.color = color;
     }
 
     public void Reset()
