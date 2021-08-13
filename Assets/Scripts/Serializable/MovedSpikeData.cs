@@ -2,6 +2,6 @@
 
 public class MovedSpikeData : SpikeData
 {
-    public Vector2Int[] path;
+    public Vector2[] path;
     public float speed;
 }

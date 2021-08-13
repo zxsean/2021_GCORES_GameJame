@@ -41,13 +41,15 @@ public class Grid : IGrid
         RawData = asset.GetComponent<GridData>();
         Row = RawData.row;
         Col = RawData.col;
-        LevelMgr.GetPosByRowAndCol(Row, Col, out var curPox);
-        CurPosX = curPox.x;
-        CurPosY = curPox.y;
+        //LevelMgr.GetPosByRowAndCol(Row, Col, out var curPox);
 
         gameObject = asset;
         transform = asset.transform;
         Renderer = asset.GetComponent<Renderer>();
+        
+        var curPox = transform.localPosition;
+        CurPosX = curPox.x;
+        CurPosY = curPox.y;
     }
 
     /// <summary>

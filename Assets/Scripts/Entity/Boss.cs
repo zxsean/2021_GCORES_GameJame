@@ -26,8 +26,20 @@ public class Boss : Grid, IEntity, IUpdatable
         {
             // 通关！
             IsDestroy = true;
+            LevelMgr.NextLevel();
         }
         
+        // 玩家碰到死
+        EntityMgr.GetAll<IPlayer>(out var list);
+        for (var i = 0; i < list.Count; ++i)
+        {
+            var p = list[i];
+            if (p is IGrid grid && grid.InRange(Renderer.bounds))
+            {
+                ((IEntity)p).Hp -= BulletDamage;
+            }
+        }
+
         // shoot bullet in interval
         if (Time.realtimeSinceStartup - LastTime >= Interval)
         {

@@ -86,6 +86,7 @@ public static class FloorMgr
     public static void Clear()
     {
         floors.Clear();
+        triggerFloors.Clear();
     }
 
     public static void GetAll<T>(out List<T> list)

@@ -2,6 +2,6 @@
 
 public class MovedBarrierData : BarrierData
 {
-    public Vector2Int[] path;
+    public Vector2[] path;
     public float speed;
 }

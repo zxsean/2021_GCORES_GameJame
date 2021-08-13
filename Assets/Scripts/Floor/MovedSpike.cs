@@ -17,8 +17,8 @@ public class MovedSpike : Spike, IUpdatable, IMovatable
         Path = new Vector2[data.path.Length];
         for (var i = 0; i < Path.Length; ++i)
         {
-            var dataPos = data.path[i];
-            LevelMgr.GetPosByRowAndCol(dataPos.x, dataPos.y, out var path);
+            var path = data.path[i];
+            //LevelMgr.GetPosByRowAndCol(dataPos.x, dataPos.y, out var path);
             Path[i] = path;
         }
         Speed = data.speed;

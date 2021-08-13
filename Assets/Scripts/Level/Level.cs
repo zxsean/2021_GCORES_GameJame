@@ -27,7 +27,7 @@ public class Level
         EntityRoot = transform.Find("Entity");
         EffectRoot = transform.Find("Effect");
         
-        Bounds = new Bounds(Vector3.zero, new Vector3(Cols, Rows, 1.0f));
+        Bounds = new Bounds(Vector3.zero, new Vector3(data.width, data.height, 1.0f));
     }
 
     public void Enter()
@@ -59,6 +59,7 @@ public class Level
         FloorMgr.Clear();
         EntityMgr.Clear();
         EffectMgr.Clear();
+        PoolMgr<GameObject>.Clear();
     }
 
     public bool Contains(Bounds bounds)

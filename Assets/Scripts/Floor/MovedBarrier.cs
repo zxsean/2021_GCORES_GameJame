@@ -17,8 +17,8 @@ public class MovedBarrier: Barrier, IUpdatable, IMovatable
         Path = new Vector2[barrierData.path.Length];
         for (var i = 0; i < Path.Length; ++i)
         {
-            var dataPos = barrierData.path[i];
-            LevelMgr.GetPosByRowAndCol(dataPos.x, dataPos.y, out var path);
+            var path = barrierData.path[i];
+            //LevelMgr.GetPosByRowAndCol(dataPos.x, dataPos.y, out var path);
             Path[i] = path;
         }
         Speed = barrierData.speed;

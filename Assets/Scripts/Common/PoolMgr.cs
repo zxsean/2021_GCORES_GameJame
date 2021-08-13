@@ -53,4 +53,9 @@ public static class PoolMgr<T>
             }
         }
     }
+
+    public static void Clear()
+    {
+        pool.Clear();
+    }
 }
