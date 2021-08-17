@@ -3,13 +3,18 @@
 public static class Game
 {
     public static Transform Root { get; private set; }
-    
     private static GameObject EndView { get; set; }
     
+    public static AudioClip FootStepSound { get; set; }
+    public static AudioClip DieSound { get; set; }
+    public static AudioClip BulletShootSound { get; set; }
+    public static AudioClip BulletHitSound { get; set; }
+
     public static void Init()
     {
         Root = GameObject.Find("Game").transform;
         EndView = GameObject.Find("Canvas").transform.Find("EndView").gameObject;
+        AudioMgr.Root = Root.gameObject;
     }
 
     public static void Start()
@@ -29,6 +34,7 @@ public static class Game
     public static void Update()
     {
         LevelMgr.Update();
+        AnimationMgr.Update();
     }
 
     public static void End()
@@ -39,6 +45,6 @@ public static class Game
 
     public static void Destroy()
     {
-        
+        AnimationMgr.Clear();
     }
 }

@@ -8215,6 +8215,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8757542052694324321}
   - component: {fileID: 850021488096710343}
+  - component: {fileID: 1402164028}
   m_Layer: 0
   m_Name: Level1
   m_TagString: Untagged
@@ -8256,6 +8257,23 @@ MonoBehaviour:
   cols: 0
   width: 13
   height: 9
+--- !u!111 &1402164028
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8757542052694324320}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 067eec7c93da1f943b63fa278faaf328, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 067eec7c93da1f943b63fa278faaf328, type: 2}
+  - {fileID: 7400000, guid: 778ad7c9afef0a741adc606186e27889, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &8757542052699997341
 GameObject:
   m_ObjectHideFlags: 0
@@ -9871,13 +9889,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3798867247333348338, guid: 1dbaa87c88b4746b09577524b27cee2f,
         type: 3}
-      propertyPath: col
-      value: 4
+      propertyPath: row
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 3798867247333348338, guid: 1dbaa87c88b4746b09577524b27cee2f,
         type: 3}
-      propertyPath: row
-      value: 9
+      propertyPath: col
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1dbaa87c88b4746b09577524b27cee2f, type: 3}

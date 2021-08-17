@@ -8119,6 +8119,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8757542052694324321}
   - component: {fileID: 850021488096710343}
+  - component: {fileID: 666125060696205331}
   m_Layer: 0
   m_Name: Level3
   m_TagString: Untagged
@@ -8160,6 +8161,23 @@ MonoBehaviour:
   cols: 0
   width: 13
   height: 9
+--- !u!111 &666125060696205331
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8757542052694324320}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: 067eec7c93da1f943b63fa278faaf328, type: 2}
+  - {fileID: 7400000, guid: 778ad7c9afef0a741adc606186e27889, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &8757542052699997341
 GameObject:
   m_ObjectHideFlags: 0
@@ -9463,6 +9481,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8757542052711577462}
     m_Modifications:
+    - target: {fileID: 3225938439183090478, guid: d7d7fe22e43d4411ba144a3539b7d9b3,
+        type: 3}
+      propertyPath: m_Name
+      value: Boss
+      objectReference: {fileID: 0}
     - target: {fileID: 2864446698638857030, guid: d7d7fe22e43d4411ba144a3539b7d9b3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9517,11 +9540,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3225938439183090478, guid: d7d7fe22e43d4411ba144a3539b7d9b3,
-        type: 3}
-      propertyPath: m_Name
-      value: Boss
       objectReference: {fileID: 0}
     - target: {fileID: 4838621030993638896, guid: d7d7fe22e43d4411ba144a3539b7d9b3,
         type: 3}

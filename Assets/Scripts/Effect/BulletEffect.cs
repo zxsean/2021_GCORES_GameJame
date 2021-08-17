@@ -76,6 +76,7 @@ public class BulletEffect : IEffect, IGrid, IUpdatable, IMovatable, IFlyer
                 entity is IGrid grid && 
                 grid.InRange(Renderer.bounds))
             {
+                AudioMgr.PlaySound(Game.BulletHitSound);
                 entity.Hp -= Damage;
                 IsDestroy = true;
                 return;

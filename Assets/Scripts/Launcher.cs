@@ -7,9 +7,18 @@ public class Launcher : MonoBehaviour
 
     public GameObject[] levelData;
 
+    public AudioClip footstepSound;
+    public AudioClip dieSound;
+    public AudioClip bulletShootSound;
+    public AudioClip bulletHitSound;
+
     private void Awake()
     {
         Game.Init();
+        Game.FootStepSound = footstepSound;
+        Game.DieSound = dieSound;
+        Game.BulletShootSound = bulletShootSound;
+        Game.BulletHitSound = bulletHitSound;
     }
 
     private void Start()

@@ -494,6 +494,10 @@ MonoBehaviour:
   - {fileID: 8757542052694324320, guid: 95f7b3b38c6d2415bb59ca03d3ab50e1, type: 3}
   - {fileID: 8757542052694324320, guid: fb0954cff7e9e41ee814e56941c3cd55, type: 3}
   - {fileID: 8757542052694324320, guid: 227de42bce1d16b4a89d9d889ba5f032, type: 3}
+  footstepSound: {fileID: 8300000, guid: 0398cbc243a25964cb938aa03e2c7fce, type: 3}
+  dieSound: {fileID: 8300000, guid: 782a7c8f102c0cc4cae2c248d77b28e4, type: 3}
+  bulletShootSound: {fileID: 8300000, guid: e70975b62d77f684cbfa7ce43bb40846, type: 3}
+  bulletHitSound: {fileID: 8300000, guid: 946d43fd614f73045ba8ddd26aebe498, type: 3}
 --- !u!1 &2046148675
 GameObject:
   m_ObjectHideFlags: 0

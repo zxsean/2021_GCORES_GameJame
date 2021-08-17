@@ -10065,6 +10065,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8757542052694324321}
   - component: {fileID: 850021488096710343}
+  - component: {fileID: 8661250684666977539}
   m_Layer: 0
   m_Name: Level2
   m_TagString: Untagged
@@ -10106,6 +10107,23 @@ MonoBehaviour:
   cols: 0
   width: 13
   height: 11
+--- !u!111 &8661250684666977539
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8757542052694324320}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: 067eec7c93da1f943b63fa278faaf328, type: 2}
+  - {fileID: 7400000, guid: 778ad7c9afef0a741adc606186e27889, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &8757542052699997341
 GameObject:
   m_ObjectHideFlags: 0

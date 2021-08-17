@@ -31,6 +31,7 @@ public class Player : Grid, IEntity, IUpdatable, IEffectTarget, IPlayer
     {
         if (Hp <= 0)
         {
+            AudioMgr.PlaySound(Game.DieSound);
             gameObject.SetActive(false);
             IsActive = false;
             // 玩家死亡 游戏结束
@@ -43,28 +44,43 @@ public class Player : Grid, IEntity, IUpdatable, IEffectTarget, IPlayer
     {
         var offsetX = 0.0f;
         var offsetY = 0.0f;
-        
+
+        var moved = false;
         // 方向
         if (Input.GetKey(KeyCode.W))
         {
             offsetY += CurSpeed * Time.deltaTime;
+            moved = true;
         }
 
         if (Input.GetKey(KeyCode.S))
         {
             offsetY -= CurSpeed * Time.deltaTime;
+            moved = true;
         }
 
         if (Input.GetKey(KeyCode.A))
         {
             offsetX -= CurSpeed * Time.deltaTime;
+            moved = true;
         }
 
         if (Input.GetKey(KeyCode.D))
         {
             offsetX += CurSpeed * Time.deltaTime;
+            moved = true;
         }
         
+        // 脚步声
+        if (moved)
+        {
+            AudioMgr.PlayContinueSound(Game.FootStepSound);
+        }
+        else
+        {
+            AudioMgr.StopSound(Game.FootStepSound);
+        }
+
         var bounds = Renderer.bounds;
         bounds.center = new Vector3(bounds.center.x + offsetX, bounds.center.y + offsetY);
         

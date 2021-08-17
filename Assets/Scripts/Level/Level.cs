@@ -14,6 +14,8 @@ public class Level
     public Transform EffectRoot { get; private set; }
     
     private Bounds Bounds { get; set; }
+    
+    private Animation Anim { get; set; }
 
     public Level(GameObject asset)
     {
@@ -26,6 +28,7 @@ public class Level
         FloorRoot = transform.Find("Floor");
         EntityRoot = transform.Find("Entity");
         EffectRoot = transform.Find("Effect");
+        Anim = transform.GetComponent<Animation>();
         
         Bounds = new Bounds(Vector3.zero, new Vector3(data.width, data.height, 1.0f));
     }
@@ -38,6 +41,8 @@ public class Level
         EntityMgr.CreateEntities(EntityRoot);
         
         gameObject.SetActive(true);
+
+        Anim.Play("level_enter");
     }
     
     
@@ -50,8 +55,11 @@ public class Level
 
     public void Exit()
     {
-        gameObject.SetActive(false);
         Clear();
+        Anim.Play("level_exit", () =>
+        {
+            gameObject.SetActive(false);
+        });
     }
 
     public void Clear()
