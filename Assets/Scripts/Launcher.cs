@@ -12,6 +12,10 @@ public class Launcher : MonoBehaviour
     public AudioClip bulletShootSound;
     public AudioClip bulletHitSound;
 
+    public AudioClip normalMusic;
+    public AudioClip bossMusic;
+    public AudioClip endMusic;
+
     private void Awake()
     {
         Game.Init();
@@ -19,6 +23,9 @@ public class Launcher : MonoBehaviour
         Game.DieSound = dieSound;
         Game.BulletShootSound = bulletShootSound;
         Game.BulletHitSound = bulletHitSound;
+        Game.NormalMusic = normalMusic;
+        Game.BossMusic = bossMusic;
+        Game.EndMusic = endMusic;
     }
 
     private void Start()

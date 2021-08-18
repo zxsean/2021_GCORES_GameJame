@@ -27,6 +27,15 @@ public static class LevelMgr
     {
         CurLevel?.Exit();
 
+        if (levelId <= levelAssets.Count - 2)
+        {
+            AudioMgr.PlayContinueMusic(Game.NormalMusic);
+        }
+        else
+        {
+            AudioMgr.PlayContinueMusic(Game.BossMusic);
+        }
+
         if (levelId >= levelAssets.Count)
         {
             // 已通过最终关，播放游戏Ending

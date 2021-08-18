@@ -21,6 +21,24 @@ public static class AudioMgr
         musicSource.Play();
     }       
     
+    public static void PlayContinueMusic(AudioClip clip)
+    {
+        if (musicSource == null)
+        {
+            musicSource = Root.AddComponent<AudioSource>();
+            musicSource.loop = true;
+            musicSource.playOnAwake = false;
+        }
+
+        if (musicSource.clip == clip)
+        {
+            return;
+        }
+        
+        musicSource.clip = clip;
+        musicSource.Play();
+    }
+    
     public static void PlaySound(AudioClip clip)
     {
         AudioSource freeSource = null;
@@ -50,7 +68,7 @@ public static class AudioMgr
         AudioSource contSource = null;
         foreach (var source in soundSources)
         {
-            if (source.clip.name == clip.name)
+            if (source.clip == clip)
             {
                 contSource = source;
                 break;
@@ -72,7 +90,7 @@ public static class AudioMgr
         AudioSource stopSource = null;
         foreach (var source in soundSources)
         {
-            if (source.clip.name == clip.name)
+            if (source.clip == clip)
             {
                 stopSource = source;
                 break;

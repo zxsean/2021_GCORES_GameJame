@@ -9,12 +9,16 @@ public static class Game
     public static AudioClip DieSound { get; set; }
     public static AudioClip BulletShootSound { get; set; }
     public static AudioClip BulletHitSound { get; set; }
+    
+    public static AudioClip NormalMusic { get; set; }
+    public static AudioClip BossMusic { get; set; }
+    public static AudioClip EndMusic { get; set; }
 
     public static void Init()
     {
         Root = GameObject.Find("Game").transform;
         EndView = GameObject.Find("Canvas").transform.Find("EndView").gameObject;
-        AudioMgr.Root = Root.gameObject;
+        AudioMgr.Root = GameObject.Find("Audio");
     }
 
     public static void Start()
