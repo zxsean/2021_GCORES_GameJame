@@ -395,13 +395,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1962980904259215371, guid: c7c2f21a5520af24cb6be2bf1c476add,
         type: 3}
-      propertyPath: duration
-      value: 10
+      propertyPath: triggerId
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1962980904259215371, guid: c7c2f21a5520af24cb6be2bf1c476add,
         type: 3}
-      propertyPath: triggerId
-      value: 1
+      propertyPath: duration
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7c2f21a5520af24cb6be2bf1c476add, type: 3}
@@ -511,7 +511,7 @@ PrefabInstance:
     - target: {fileID: 6040421976529276248, guid: a0a07f566ce886e459e6ff6bfd05a3ac,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 14.98
+      value: 13.53
       objectReference: {fileID: 0}
     - target: {fileID: 6040421976529276248, guid: a0a07f566ce886e459e6ff6bfd05a3ac,
         type: 3}
@@ -571,32 +571,32 @@ PrefabInstance:
     - target: {fileID: 1483801555332015703, guid: a0a07f566ce886e459e6ff6bfd05a3ac,
         type: 3}
       propertyPath: path.Array.data[0].x
-      value: -3.7
+      value: 14.62
       objectReference: {fileID: 0}
     - target: {fileID: 1483801555332015703, guid: a0a07f566ce886e459e6ff6bfd05a3ac,
         type: 3}
       propertyPath: path.Array.data[0].y
-      value: -6.99
+      value: 15.48
       objectReference: {fileID: 0}
     - target: {fileID: 1483801555332015703, guid: a0a07f566ce886e459e6ff6bfd05a3ac,
         type: 3}
       propertyPath: path.Array.data[1].x
-      value: -3.7
+      value: 14.62
       objectReference: {fileID: 0}
     - target: {fileID: 1483801555332015703, guid: a0a07f566ce886e459e6ff6bfd05a3ac,
         type: 3}
       propertyPath: path.Array.data[1].y
-      value: -8.54
+      value: 13.53
       objectReference: {fileID: 0}
     - target: {fileID: 1483801555332015703, guid: a0a07f566ce886e459e6ff6bfd05a3ac,
         type: 3}
       propertyPath: path.Array.data[2].x
-      value: -3.7
+      value: 14.62
       objectReference: {fileID: 0}
     - target: {fileID: 1483801555332015703, guid: a0a07f566ce886e459e6ff6bfd05a3ac,
         type: 3}
       propertyPath: path.Array.data[2].y
-      value: -6.99
+      value: 15.48
       objectReference: {fileID: 0}
     - target: {fileID: 1483801555332015703, guid: a0a07f566ce886e459e6ff6bfd05a3ac,
         type: 3}
@@ -2115,23 +2115,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 349407755220896436, guid: d045f958820b0204c820407a8bf075eb,
         type: 3}
-      propertyPath: m_LocalScale.y
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 349407755220896436, guid: d045f958820b0204c820407a8bf075eb,
-        type: 3}
       propertyPath: m_LocalScale.x
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 349407755220896438, guid: d045f958820b0204c820407a8bf075eb,
+    - target: {fileID: 349407755220896436, guid: d045f958820b0204c820407a8bf075eb,
         type: 3}
-      propertyPath: row
+      propertyPath: m_LocalScale.y
       value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 349407755220896438, guid: d045f958820b0204c820407a8bf075eb,
-        type: 3}
-      propertyPath: col
-      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d045f958820b0204c820407a8bf075eb, type: 3}
@@ -3770,23 +3760,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 349407755220896436, guid: d045f958820b0204c820407a8bf075eb,
         type: 3}
-      propertyPath: m_LocalScale.y
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 349407755220896436, guid: d045f958820b0204c820407a8bf075eb,
-        type: 3}
       propertyPath: m_LocalScale.x
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 349407755220896438, guid: d045f958820b0204c820407a8bf075eb,
+    - target: {fileID: 349407755220896436, guid: d045f958820b0204c820407a8bf075eb,
         type: 3}
-      propertyPath: row
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 349407755220896438, guid: d045f958820b0204c820407a8bf075eb,
-        type: 3}
-      propertyPath: col
-      value: 4
+      propertyPath: m_LocalScale.y
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d045f958820b0204c820407a8bf075eb, type: 3}
