@@ -4,6 +4,7 @@ public static class Game
 {
     public static Transform Root { get; private set; }
     private static GameObject EndView { get; set; }
+    private static GameObject StartView { get; set; }
     
     public static AudioClip FootStepSound { get; set; }
     public static AudioClip DieSound { get; set; }
@@ -17,13 +18,17 @@ public static class Game
     public static void Init()
     {
         Root = GameObject.Find("Game").transform;
+        StartView = GameObject.Find("Canvas").transform.Find("StartView").gameObject;
         EndView = GameObject.Find("Canvas").transform.Find("EndView").gameObject;
         AudioMgr.Root = GameObject.Find("Audio");
+        
+        StartView.SetActive(true);
     }
 
     public static void Start()
     {
         Root.gameObject.SetActive(true);
+        StartView.SetActive(false);
         EndView.SetActive(false);
         LevelMgr.CreateAndEnterLevel(0);
     }

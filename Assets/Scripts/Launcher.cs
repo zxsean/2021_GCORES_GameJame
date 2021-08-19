@@ -31,7 +31,6 @@ public class Launcher : MonoBehaviour
     private void Start()
     {
         LevelMgr.LoadLevels(levelData);
-        Game.Start();
     }
 
     private void Update()
