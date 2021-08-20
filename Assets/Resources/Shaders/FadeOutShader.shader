@@ -3,6 +3,7 @@
     Properties
     {
         [PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
+        _Blur("Blur", Range(0, 1)) = 0.0
     }
     SubShader
     {
@@ -43,6 +44,7 @@
             };
 
             sampler2D _MainTex;
+            float _Blur;
 
             v2f vert (appdata v)
             {
@@ -50,14 +52,22 @@
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = v.uv;
                 o.color = v.color;
-                UNITY_TRANSFER_FOG(o,o.vertex);
                 return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            float4 frag (v2f i) : SV_Target
             {
-                // sample the texture
-                fixed4 col = tex2D(_MainTex, i.uv) * i.color;
+                float2 uv1 = i.uv + float2(_Blur / 100, 0);
+                float2 uv2 = i.uv + float2(-_Blur / 100, 0);
+                float2 uv3 = i.uv + float2(0, _Blur / 100);
+                float2 uv4 = i.uv + float2(0, -_Blur / 100);
+                float4 col = tex2D(_MainTex, i.uv) * i.color * 0.2;
+                col += tex2D(_MainTex, uv1) * i.color * 0.2;
+                col += tex2D(_MainTex, uv2) * i.color * 0.2;
+                col += tex2D(_MainTex, uv3) * i.color * 0.2;
+                col += tex2D(_MainTex, uv4) * i.color * 0.2;
+
+                col.a *= 1 - _Blur * _Blur * _Blur * _Blur * _Blur;
                 col.rgb *= col.a;
                 return col;
             }
