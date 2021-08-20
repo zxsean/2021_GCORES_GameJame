@@ -18,6 +18,9 @@ public class IllusionPlayer : IGrid, IEntity, IUpdatable, IEffectTarget, IPlayer
     
     public float Duration { get; set; }
     private float startTime { get; set; }
+    
+    private static MaterialPropertyBlock Mpb = new MaterialPropertyBlock();
+    private static int BulerID = Shader.PropertyToID("_Blur");
 
     public IllusionPlayer()
     {
@@ -31,6 +34,8 @@ public class IllusionPlayer : IGrid, IEntity, IUpdatable, IEffectTarget, IPlayer
         transform = gameObject.transform;
         Renderer = gameObject.GetComponent<Renderer>();
         IsActive = true;
+        Mpb.Clear();
+        Renderer.GetPropertyBlock(Mpb);
     }
 
     public void Update()
@@ -98,10 +103,9 @@ public class IllusionPlayer : IGrid, IEntity, IUpdatable, IEffectTarget, IPlayer
         transform.localPosition = pos;
         
         // 先用顶点颜色来模拟淡出效果
-        var spRenderer = Renderer as SpriteRenderer;
-        var color = spRenderer.color;
-        color.a = Mathf.Lerp(1, 0, (Time.realtimeSinceStartup - startTime) / Duration);
-        spRenderer.color = color;
+        var blur = Mathf.Lerp(0, 1, (Time.realtimeSinceStartup - startTime) / Duration);
+        Mpb.SetFloat(BulerID, blur);
+        Renderer.SetPropertyBlock(Mpb);
     }
 
     public void Reset()

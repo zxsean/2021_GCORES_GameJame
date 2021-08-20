@@ -18,8 +18,13 @@ public static class Game
     public static void Init()
     {
         Root = GameObject.Find("Game").transform;
-        StartView = GameObject.Find("Canvas").transform.Find("StartView").gameObject;
-        EndView = GameObject.Find("Canvas").transform.Find("EndView").gameObject;
+        var startView = Resources.Load<GameObject>("Prefabs/UI/StartView");
+        var endView = Resources.Load<GameObject>("Prefabs/UI/EndView");
+        var canvas = GameObject.Find("Canvas").transform;
+        StartView = Object.Instantiate(startView, Vector3.zero, Quaternion.identity);
+        StartView.transform.SetParent(canvas, false);
+        EndView = Object.Instantiate(endView, Vector3.zero, Quaternion.identity);
+        EndView.transform.SetParent(canvas, false);
         AudioMgr.Root = GameObject.Find("Audio");
         
         StartView.SetActive(true);
@@ -48,6 +53,7 @@ public static class Game
 
     public static void End()
     {
+        AudioMgr.StopAllSound();
         Root.gameObject.SetActive(false);
         EndView.SetActive(true);
     }

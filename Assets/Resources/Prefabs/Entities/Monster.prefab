@@ -94,6 +94,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   row: 0
   col: 0
-  speed: 2
+  speed: 6
   hp: 1
   damage: 1
+  chaseRadius: 5
+  path: []

@@ -100,4 +100,15 @@ public static class AudioMgr
         if (stopSource == null) return;
         stopSource.Stop();
     }
+
+    public static void StopAllSound()
+    {
+        foreach (var source in soundSources)
+        {
+            if (source.isPlaying)
+            {
+                source.Stop();
+            }
+        }
+    }
 }
