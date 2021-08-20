@@ -12,10 +12,11 @@ public class Level
     public Transform FloorRoot { get; private set; }
     public Transform EntityRoot { get; private set; }
     public Transform EffectRoot { get; private set; }
-    
+
     private Bounds Bounds { get; set; }
     
     private Animation Anim { get; set; }
+    private bool IsPause { get; set; }
 
     public Level(GameObject asset)
     {
@@ -33,7 +34,7 @@ public class Level
         Bounds = new Bounds(Vector3.zero, new Vector3(data.width, data.height, 1.0f));
     }
 
-    public void Enter()
+    public void Enter(bool anim = true)
     {
         // init grid
         FloorMgr.CreateFloors(FloorRoot);
@@ -41,25 +42,45 @@ public class Level
         EntityMgr.CreateEntities(EntityRoot);
         
         gameObject.SetActive(true);
-
-        Anim.Play("level_enter");
+        if (anim)
+        {
+            Anim.Play("level_enter");
+        }
     }
     
     
     public void Update()
     {
-        FloorMgr.Update();
+        if (IsPause) return;
         EntityMgr.Update();
         EffectMgr.Update();
+        FloorMgr.Update();
     }
 
-    public void Exit()
+    public void Pause()
+    {
+        IsPause = true;
+    }
+
+    public void Resume()
+    {
+        IsPause = false;
+    }
+
+    public void Exit(bool anim = true)
     {
         Clear();
-        Anim.Play("level_exit", () =>
+        if (anim)
+        {
+            Anim.Play("level_exit", () =>
+            {
+                gameObject.SetActive(false);
+            });
+        }
+        else
         {
             gameObject.SetActive(false);
-        });
+        }
     }
 
     public void Clear()

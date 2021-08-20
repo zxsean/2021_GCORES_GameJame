@@ -23,22 +23,22 @@ public static class LevelMgr
     /// 根据关卡数据创建关卡
     /// </summary>
     /// <param name="data"></param>
-    public static void CreateAndEnterLevel(int levelId)
+    public static void CreateAndEnterLevel(int levelId, bool anim = true)
     {
-        CurLevel?.Exit();
-
         if (levelId <= levelAssets.Count - 2)
         {
+            CurLevel?.Exit(anim);
             AudioMgr.PlayContinueMusic(Game.NormalMusic);
         }
-        else
+        else if(levelId < levelAssets.Count)
         {
+            CurLevel?.Exit(anim);
             AudioMgr.PlayContinueMusic(Game.BossMusic);
         }
-
-        if (levelId >= levelAssets.Count)
+        else if (levelId >= levelAssets.Count)
         {
             // 已通过最终关，播放游戏Ending
+            CurLevel.Pause();
             Game.End();
             return;
         }
@@ -49,7 +49,7 @@ public static class LevelMgr
         levels.Add(level);
         CurLevel = level;
         CurLevelId = levelId;
-        CurLevel.Enter();
+        CurLevel.Enter(anim);
     }
 
     public static void ReEnter()

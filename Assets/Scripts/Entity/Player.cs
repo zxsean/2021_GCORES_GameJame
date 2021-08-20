@@ -20,11 +20,11 @@ public class Player : Grid, IEntity, IUpdatable, IEffectTarget, IPlayer
 
     public void Update()
     {
-        // 处理状态
-        ProcessStates();
-        
         // 处理输入
         ProcessInputs();
+        
+        // 处理状态
+        ProcessStates();
     }
 
     protected virtual void ProcessStates()
@@ -109,5 +109,10 @@ public class Player : Grid, IEntity, IUpdatable, IEffectTarget, IPlayer
         pos.x = CurPosX;
         pos.y = CurPosY;
         transform.localPosition = pos;
+
+        var camPos = Game.Camera.transform.localPosition;
+        camPos.x = pos.x;
+        camPos.y = pos.y;
+        Game.Camera.transform.localPosition = camPos;
     }
 }

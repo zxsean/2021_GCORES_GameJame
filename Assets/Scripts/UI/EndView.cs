@@ -8,16 +8,9 @@ public class EndView : MonoBehaviour
 {
     [SerializeField]
     private float speed;
-
-    private Text text;
-    private RectTransform textTrans;
     
-
-    private void Awake()
-    {
-        text = transform.Find("Text").GetComponent<Text>();
-        textTrans = text.transform as RectTransform;
-    }
+    public RectTransform content;
+    
 
     private void Start()
     {
@@ -26,8 +19,8 @@ public class EndView : MonoBehaviour
 
     private void Update()
     {
-        var pos = textTrans.anchoredPosition;
+        var pos = content.anchoredPosition;
         pos.y += speed * Time.deltaTime;
-        textTrans.anchoredPosition = pos;
+        content.anchoredPosition = pos;
     }
 }

@@ -105,10 +105,7 @@ public static class AudioMgr
     {
         foreach (var source in soundSources)
         {
-            if (source.isPlaying)
-            {
-                source.Stop();
-            }
+            source.Stop();
         }
     }
 }
