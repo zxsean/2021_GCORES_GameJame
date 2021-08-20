@@ -17,6 +17,10 @@ public class SpikeTrap : Grid, IFloor, IUpdatable, ITriggerFloor
     {
         Type = ((FloorData) RawData).type;
         Shelter = transform.Find("Shelter").gameObject;
+        var sr = Renderer as SpriteRenderer;
+        var color = sr.color;
+        color.a = 0.0f;
+        sr.color = color;
         
         var data = (SpikeTrapData) RawData;
         TriggerId = data.triggerId;
@@ -51,6 +55,10 @@ public class SpikeTrap : Grid, IFloor, IUpdatable, ITriggerFloor
         }
         
         Shelter.SetActive(false);
+        var sr = Renderer as SpriteRenderer;
+        var color = sr.color;
+        color.a = 1.0f;
+        sr.color = color;
         IsTrigger = true;
         return true;
     }

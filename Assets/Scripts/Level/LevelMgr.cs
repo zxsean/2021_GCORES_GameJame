@@ -58,7 +58,7 @@ public static class LevelMgr
         levels.Remove(CurLevel);
         Object.Destroy(CurLevel.gameObject);
         CurLevel = null;
-        CreateAndEnterLevel(CurLevelId);
+        CreateAndEnterLevel(CurLevelId, false);
     }
 
     /// <summary>

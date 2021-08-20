@@ -26,6 +26,10 @@ public class TimeStopEffect : IEffect, IUpdatable
 
     private float radius;
     private float startTime;
+    
+    private static MaterialPropertyBlock Mpb = new MaterialPropertyBlock();
+    private static int BulerID = Shader.PropertyToID("_Blur");
+
 
     public TimeStopEffect()
     {
@@ -72,16 +76,19 @@ public class TimeStopEffect : IEffect, IUpdatable
         transform.localPosition = bounds.center;
         
         // 先用顶点颜色来模拟淡出效果
-        var spRenderer = Renderer as SpriteRenderer;
-        var color = spRenderer.color;
-        color.a = Mathf.Lerp(1, 0, (Time.realtimeSinceStartup - startTime) / Duration);
-        spRenderer.color = color;
+        // 先用顶点颜色来模拟淡出效果
+        var blur = Mathf.Lerp(0, 1, (Time.realtimeSinceStartup - startTime) / Duration);
+        Mpb.SetFloat(BulerID, blur);
+        Renderer.SetPropertyBlock(Mpb);
     }
 
     public void Reset()
     {
         startTime = Time.realtimeSinceStartup;
         gameObject.SetActive(true);
+        
+        Mpb.Clear();
+        Renderer.GetPropertyBlock(Mpb);
     }
 
     public void Destroy()

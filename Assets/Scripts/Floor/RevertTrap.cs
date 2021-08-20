@@ -16,6 +16,11 @@ public class RevertTrap : Grid, IFloor, IUpdatable, ITriggerFloor
         TriggerId = data.triggerId;
         Shelter = transform.Find("Shelter").gameObject;
         Shelter.SetActive(true);
+
+        var sr = Renderer as SpriteRenderer;
+        var color = sr.color;
+        color.a = 0.0f;
+        sr.color = color;
     }
 
     public void Update()
@@ -45,6 +50,10 @@ public class RevertTrap : Grid, IFloor, IUpdatable, ITriggerFloor
         }
         
         Shelter.SetActive(false);
+        var sr = Renderer as SpriteRenderer;
+        var color = sr.color;
+        color.a = 1.0f;
+        sr.color = color;
         IsTrigger = true;
         return true;
     }
