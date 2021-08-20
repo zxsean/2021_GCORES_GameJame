@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Trigger : Grid, IFloor, IUpdatable
@@ -8,6 +9,11 @@ public class Trigger : Grid, IFloor, IUpdatable
     
     public int TargetId { get; private set; }
     
+    private GameObject Down { get; set; }
+    private Renderer DownRenderer { get; set; }
+    private GameObject Up { get; set; }
+    private Renderer UpRenderer { get; set; }
+
     private Dictionary<ITriggerGrid, bool> inDic = new Dictionary<ITriggerGrid, bool>();
 
     public Trigger(GameObject asset) : base(asset)
@@ -15,6 +21,11 @@ public class Trigger : Grid, IFloor, IUpdatable
         var data = (TriggerData) RawData;
         Type = data.type;
         TargetId = data.targetId;
+        Down = transform.Find("Down").gameObject;
+        Up = transform.Find("Up").gameObject;
+        DownRenderer = Down.GetComponent<Renderer>();
+        UpRenderer = Up.GetComponent<Renderer>();
+        SwitchState();
     }
     
     public void Update()
@@ -40,5 +51,15 @@ public class Trigger : Grid, IFloor, IUpdatable
                 inDic.Remove(trigger);
             }
         }
+        
+        SwitchState();
+    }
+
+    private void SwitchState()
+    {
+        var inTrigger = inDic.Count != 0;
+        Down.SetActive(inTrigger);
+        Up.SetActive(!inTrigger);
+        Renderer = inTrigger ? DownRenderer : UpRenderer;
     }
 }

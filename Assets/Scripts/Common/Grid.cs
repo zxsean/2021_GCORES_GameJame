@@ -24,7 +24,7 @@ public class Grid : IGrid
     /// <summary>
     /// 关联的渲染器
     /// </summary>
-    public Renderer Renderer { get; private set; }
+    public Renderer Renderer { get; protected set; }
     /// <summary>
     /// 中心所在x坐标
     /// </summary>

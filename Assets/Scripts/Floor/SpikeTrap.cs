@@ -11,21 +11,24 @@ public class SpikeTrap : Grid, IFloor, IUpdatable, ITriggerFloor
     
     private bool IsTrigger { get; set; }
     
-    private GameObject Shelter { get; set; }
+    private GameObject Down { get; set; }
+    private Renderer DownRenderer { get; set; }
+    private GameObject Up { get; set; }
+    private Renderer UpRenderer { get; set; }
 
     public SpikeTrap(GameObject asset) : base(asset)
     {
         Type = ((FloorData) RawData).type;
-        Shelter = transform.Find("Shelter").gameObject;
-        var sr = Renderer as SpriteRenderer;
-        var color = sr.color;
-        color.a = 0.0f;
-        sr.color = color;
-        
+
         var data = (SpikeTrapData) RawData;
         TriggerId = data.triggerId;
         Damage = data.damage;
-        Shelter.SetActive(true);
+
+        Down = transform.Find("Down").gameObject;
+        Up = transform.Find("Up").gameObject;
+        DownRenderer = Down.GetComponent<Renderer>();
+        UpRenderer = Up.GetComponent<Renderer>();
+        SwitchState();
     }
 
     public void Update()
@@ -54,12 +57,15 @@ public class SpikeTrap : Grid, IFloor, IUpdatable, ITriggerFloor
             return false;
         }
         
-        Shelter.SetActive(false);
-        var sr = Renderer as SpriteRenderer;
-        var color = sr.color;
-        color.a = 1.0f;
-        sr.color = color;
         IsTrigger = true;
+        SwitchState();
         return true;
+    }
+    
+    private void SwitchState()
+    {
+        Down.SetActive(IsTrigger);
+        Up.SetActive(!IsTrigger);
+        Renderer = IsTrigger ? DownRenderer : UpRenderer;
     }
 }

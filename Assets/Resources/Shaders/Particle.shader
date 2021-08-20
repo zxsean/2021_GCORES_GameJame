@@ -2,7 +2,7 @@
 {
     Properties
     {
-        _MainTex ("MainTex", 2D) = "white" {}
+        [PerRendererData] _MainTex ("MainTex", 2D) = "white" {}
     }
     SubShader
     {
@@ -18,7 +18,7 @@
         Cull Off
         Lighting Off
         ZWrite Off
-        Blend One OneMinusSrcAlpha
+        Blend One One
 
         Pass
         {
@@ -43,11 +43,13 @@
             };
 
             sampler2D _MainTex;
+            sampler2D _StarTex;
 
             v2f vert (appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
+                o.uv = v.uv;
                 o.color = v.color;
                 return o;
             }
@@ -56,7 +58,7 @@
             {
                 float4 col = tex2D(_MainTex, i.uv);
                 col.rgb *= i.color.rgb * float3(0.5, 0.5, 0.5) * 2.0;
-                col.rgb *= col.a * i.color.a * (sin(_Time.w) * 0.5 + 0.5);
+                col.rgb *= col.a * i.color.a * (sin(_Time.w) * 0.5 + 1.0);
                 return col;
             }
             ENDCG

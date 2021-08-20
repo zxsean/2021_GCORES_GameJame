@@ -92,11 +92,4 @@ public static class LevelMgr
         CurLevel = null;
         CurLevelId = 0;
     }
-
-    public static void GetPosByRowAndCol(int row, int col, out Vector2 pos)
-    {
-        var level = CurLevel;
-        pos.x = -level.Cols / 2.0f + col + 0.5f;
-        pos.y = level.Rows / 2.0f - row - 0.5f;
-    }
 }
