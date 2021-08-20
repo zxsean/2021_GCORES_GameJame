@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class MovedBarrier: Barrier, IUpdatable, IMovatable
+public class MovedBarrier: Barrier, IUpdatable, IMovatable, ITriggerFloor
 {
     public Vector2[] Path { get; private set; }
     public float Speed { get; private set; }
@@ -8,6 +8,9 @@ public class MovedBarrier: Barrier, IUpdatable, IMovatable
     public float SpeedFactor { get; set; }
     public float SpeedDecayStartTime { get; set; }
     public float SpeedDecayTime { get; set; }
+    
+    public int TriggerId { get; private set; }
+    private bool IsTrigger { get; set; }
 
     private int CurPathIdx { get; set; }
 
@@ -23,10 +26,15 @@ public class MovedBarrier: Barrier, IUpdatable, IMovatable
         }
         Speed = barrierData.speed;
         CurPathIdx = 0;
+        TriggerId = barrierData.triggerId;
     }
 
     public void Update()
     {
+        if (TriggerId > 0 && !IsTrigger)
+        {
+            return;
+        }
         // calc decay
         if (Time.realtimeSinceStartup - SpeedDecayStartTime >= SpeedDecayTime)
         {
@@ -69,5 +77,16 @@ public class MovedBarrier: Barrier, IUpdatable, IMovatable
         pos.x = CurPosX;
         pos.y = CurPosY;
         transform.localPosition = pos;
+    }
+    
+    public bool Trigger(ITriggerGrid trigger)
+    {
+        if (!(trigger is IPlayer))
+        {
+            return false;
+        }
+        
+        IsTrigger = true;
+        return true;
     }
 }

@@ -56,7 +56,7 @@ public static class FloorMgr
                 break;
         }
         floors.Add(floor);
-        if (floor is ITriggerFloor triggerFloor)
+        if (floor is ITriggerFloor triggerFloor && triggerFloor.TriggerId > 0)
         {
             triggerFloors.Add(triggerFloor.TriggerId, triggerFloor);
         }

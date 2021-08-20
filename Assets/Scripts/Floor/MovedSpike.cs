@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class MovedSpike : Spike, IUpdatable, IMovatable
+public class MovedSpike : Spike, IUpdatable, IMovatable, ITriggerFloor
 {
     public float SpeedFactor { get; set; }
     public float SpeedDecayStartTime { get; set; }
@@ -10,6 +10,9 @@ public class MovedSpike : Spike, IUpdatable, IMovatable
     public float Speed { get; private set; }
     
     private int CurPathIdx { get; set; }
+    
+    public int TriggerId { get; private set; }
+    private bool IsTrigger { get; set; }
 
     public MovedSpike(GameObject asset) : base(asset)
     {
@@ -23,10 +26,15 @@ public class MovedSpike : Spike, IUpdatable, IMovatable
         }
         Speed = data.speed;
         CurPathIdx = 0;
+        TriggerId = data.triggerId;
     }
 
     public override void Update()
     {
+        if (TriggerId > 0 && !IsTrigger)
+        {
+            return;
+        }
         // calc decay
         if (Time.realtimeSinceStartup - SpeedDecayStartTime >= SpeedDecayTime)
         {
@@ -59,5 +67,16 @@ public class MovedSpike : Spike, IUpdatable, IMovatable
         pos.x = CurPosX;
         pos.y = CurPosY;
         transform.localPosition = pos;
+    }
+    
+    public bool Trigger(ITriggerGrid trigger)
+    {
+        if (!(trigger is IPlayer))
+        {
+            return false;
+        }
+        
+        IsTrigger = true;
+        return true;
     }
 }
