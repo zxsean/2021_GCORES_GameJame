@@ -53,22 +53,22 @@ public class IllusionPlayer : IGrid, IEntity, IUpdatable, IEffectTarget, IPlayer
         var offsetY = 0.0f;
         
         // 方向
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
         {
             offsetY += Speed * Time.deltaTime;
         }
 
-        if (Input.GetKey(KeyCode.S))
+        if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
             offsetY -= Speed * Time.deltaTime;
         }
 
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
             offsetX -= Speed * Time.deltaTime;
         }
 
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
             offsetX += Speed * Time.deltaTime;
         }

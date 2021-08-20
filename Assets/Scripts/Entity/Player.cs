@@ -47,25 +47,25 @@ public class Player : Grid, IEntity, IUpdatable, IEffectTarget, IPlayer
 
         var moved = false;
         // 方向
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
         {
             offsetY += CurSpeed * Time.deltaTime;
             moved = true;
         }
 
-        if (Input.GetKey(KeyCode.S))
+        if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
             offsetY -= CurSpeed * Time.deltaTime;
             moved = true;
         }
 
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
             offsetX -= CurSpeed * Time.deltaTime;
             moved = true;
         }
 
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
             offsetX += CurSpeed * Time.deltaTime;
             moved = true;
