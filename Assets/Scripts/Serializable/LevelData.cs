@@ -10,8 +10,8 @@ public class LevelData : MonoBehaviour
     public int rows;
     public int cols;
     public GameObject ground;
-    //[HideInInspector]
+    [HideInInspector]
     public float width;
-    //[HideInInspector]
+    [HideInInspector]
     public float height;
 }
