@@ -67,7 +67,7 @@
                 col += tex2D(_MainTex, uv3) * i.color * 0.2;
                 col += tex2D(_MainTex, uv4) * i.color * 0.2;
 
-                col.a *= 1 - _Blur;
+                col.a *= 1 - _Blur * _Blur * _Blur * _Blur * _Blur;
                 col.rgb *= col.a;
                 return col;
             }
