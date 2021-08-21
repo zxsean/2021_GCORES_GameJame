@@ -5,6 +5,8 @@ using UnityEngine;
 /// </summary>
 public class GridData : MonoBehaviour
 {
+    [HideInInspector]
     public int row;
+    [HideInInspector]
     public int col;
 }

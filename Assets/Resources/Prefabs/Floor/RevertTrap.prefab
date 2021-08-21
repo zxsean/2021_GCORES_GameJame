@@ -128,6 +128,7 @@ MonoBehaviour:
   col: 0
   type: 8
   triggerId: 0
+  duration: 5
 --- !u!1 &6654048830270695167
 GameObject:
   m_ObjectHideFlags: 0

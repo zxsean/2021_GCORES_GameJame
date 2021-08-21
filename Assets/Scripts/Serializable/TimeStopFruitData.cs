@@ -3,4 +3,5 @@
     public float radius;
     public float duration;
     public float decayTime;
+    public float cdTime;
 }

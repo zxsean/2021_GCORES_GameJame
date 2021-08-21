@@ -96,5 +96,6 @@ MonoBehaviour:
   col: 0
   type: 4
   radius: 2
-  duration: 5
-  decayTime: 2
+  duration: 3
+  decayTime: 1
+  cdTime: 5

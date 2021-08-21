@@ -1,17 +1,10 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
-/// 追踪子弹
+/// 固定方向的子弹
 /// </summary>
-public class BulletEffect : IEffect, IGrid, IUpdatable, IMovatable, IFlyer
+public class DirectionBulletEffect : IEffect, IGrid, IUpdatable, IMovatable, IFlyer
 {
-    public bool IsDestroy { get; private set; }
-    public float SpeedFactor { get; set; }
-    public float SpeedDecayStartTime { get; set; }
-    public float SpeedDecayTime { get; set; }
-    public float Speed { get; set; }
-    public int Damage { get; set; }
-
     public int Row { get; }
     public int Col { get; }
     public GameObject gameObject { get; private set; }
@@ -19,19 +12,19 @@ public class BulletEffect : IEffect, IGrid, IUpdatable, IMovatable, IFlyer
     public Renderer Renderer { get; private set; }
     public float CurPosX { get; set; }
     public float CurPosY { get; set; }
-    public bool InRange(Bounds bounds)
-    {
-        return Renderer.bounds.Intersects(bounds);
-    }
-
-    public IEntity Target { get; set; }
-
+    public float SpeedFactor { get; set; }
+    public float SpeedDecayStartTime { get; set; }
+    public float SpeedDecayTime { get; set; }
+    public float Speed { get; set; }
+    public int Damage { get; set; }
+    public bool IsDestroy { get; private set; }
+    public Vector3 Direction { get; set; }
     public Vector3 StartPosition
     {
         set => transform.localPosition = value;
     }
 
-    public BulletEffect()
+    public DirectionBulletEffect()
     {
         Reset();
     }
@@ -55,6 +48,12 @@ public class BulletEffect : IEffect, IGrid, IUpdatable, IMovatable, IFlyer
     {
         gameObject.SetActive(false);
         PoolMgr<GameObject>.Return("BulletEffect", gameObject);
+
+    }
+    
+    public bool InRange(Bounds bounds)
+    {
+        return Renderer.bounds.Intersects(bounds);
     }
     
     public void Update()
@@ -75,8 +74,7 @@ public class BulletEffect : IEffect, IGrid, IUpdatable, IMovatable, IFlyer
         for (var i = 0; i < eList.Count; ++i)
         {
             var entity = eList[i];
-            if (entity == Target && 
-                entity is IGrid grid && 
+            if (entity is IGrid grid && 
                 grid.InRange(Renderer.bounds))
             {
                 AudioMgr.PlaySound(Game.BulletHitSound);
@@ -96,17 +94,15 @@ public class BulletEffect : IEffect, IGrid, IUpdatable, IMovatable, IFlyer
             SpeedFactor = 0;
         }
         
-        //追踪Target
+        //朝固定方向发射
         var pos = transform.localPosition;
-        var bounds = ((IGrid)Target).Renderer.bounds;
-        var dir = (bounds.center - pos).normalized;
-        pos += dir * (Speed * SpeedFactor * Time.deltaTime);
+        pos += Direction * (Speed * SpeedFactor * Time.deltaTime);
         transform.localPosition = pos;
     }
 
+
     public void RevertTarget()
     {
-        EntityMgr.GetAll<Boss>(out var list);
-        Target = list[0];
+        Direction *= -1;
     }
 }

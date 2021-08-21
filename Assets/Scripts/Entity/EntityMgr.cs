@@ -28,6 +28,10 @@ public static class EntityMgr
         {
             entity = new Monster(asset.gameObject);
         }
+        else if (data is BulletMonsterData)
+        {
+            entity = new BulletMonster(asset.gameObject);
+        }
         else if (data is BossData)
         {
             entity = new Boss(asset.gameObject);
