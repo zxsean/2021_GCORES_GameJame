@@ -13,6 +13,8 @@ public class MovedSpike : Spike, IUpdatable, IMovatable, ITriggerFloor
     
     public int TriggerId { get; private set; }
     private bool IsTrigger { get; set; }
+    
+    private bool IsRevert { get; set; }
 
     public MovedSpike(GameObject asset) : base(asset)
     {
@@ -27,6 +29,8 @@ public class MovedSpike : Spike, IUpdatable, IMovatable, ITriggerFloor
         Speed = data.speed;
         CurPathIdx = 0;
         TriggerId = data.triggerId;
+        IsRevert = data.isRevert;
+        IsTrigger = IsRevert;
     }
 
     public override void Update()
@@ -75,8 +79,8 @@ public class MovedSpike : Spike, IUpdatable, IMovatable, ITriggerFloor
         {
             return false;
         }
-        
-        IsTrigger = true;
+
+        IsTrigger = !IsRevert;
         return true;
     }
 }

@@ -366,6 +366,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelData:
+  - {fileID: 8757542052694324320, guid: 227de42bce1d16b4a89d9d889ba5f032, type: 3}
+  - {fileID: 8757542052694324320, guid: cfd23269ee5c8c449b837a2fb3801bc4, type: 3}
+  - {fileID: 8757542052694324320, guid: ddb4984d0e1851d45a1d5a2b41bc6ca9, type: 3}
   - {fileID: 294901732635210499, guid: ba20158ccc9aa654aa4bf82b84130b40, type: 3}
   footstepSound: {fileID: 8300000, guid: 0398cbc243a25964cb938aa03e2c7fce, type: 3}
   dieSound: {fileID: 8300000, guid: 782a7c8f102c0cc4cae2c248d77b28e4, type: 3}
