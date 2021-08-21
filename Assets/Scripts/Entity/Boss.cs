@@ -25,6 +25,11 @@ public class Boss : Grid, IEntity, IUpdatable
     private int Winding { get; set; }
     private float Length { get; set; }
     private bool IsHurt { get; set; }
+    
+    private Sprite Up { get; set; }
+    private Sprite Down { get; set; }
+    private Sprite Left { get; set; }
+    private Sprite Right { get; set; }
 
     public Boss(GameObject asset) : base(asset)
     {
@@ -37,6 +42,11 @@ public class Boss : Grid, IEntity, IUpdatable
         Speed = data.speed;
         Winding = (int) data.winding;
         Length = 2 * Mathf.PI * Radius;
+        
+        Up = data.up;
+        Down = data.down;
+        Left = data.left;
+        Right = data.right;
     }
     
     public void Update()
@@ -70,6 +80,7 @@ public class Boss : Grid, IEntity, IUpdatable
         pos.x = pos.x * Mathf.Cos(rand) - pos.y * Mathf.Sin(rand);
         pos.y = pos.x * Mathf.Sin(rand) + pos.y * Mathf.Cos(rand);
         transform.localPosition = pos;
+        ChangeSprite(-pos);
         
         // 玩家碰到死
         EntityMgr.GetAll<IPlayer>(out var list);
@@ -92,6 +103,29 @@ public class Boss : Grid, IEntity, IUpdatable
             effect.StartPosition = Renderer.bounds.center;
             LastTime = Time.realtimeSinceStartup;
             AudioMgr.PlaySound(Game.BulletShootSound);
+        }
+    }
+    
+    private void ChangeSprite(Vector3 dir)
+    {
+        dir = dir.normalized;
+        var sr = Renderer as SpriteRenderer;
+        const float cos45 = 0.707f;
+        if (Vector3.Dot(dir, Vector3.up) > cos45)
+        {
+            sr.sprite = Up;
+        }
+        else if (Vector3.Dot(dir, Vector3.down) > cos45)
+        {
+            sr.sprite = Down;
+        }
+        else if (Vector3.Dot(dir, Vector3.left) > cos45)
+        {
+            sr.sprite = Left;
+        }
+        else if (Vector3.Dot(dir, Vector3.right) > cos45)
+        {
+            sr.sprite = Right;
         }
     }
 }

@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public enum Winding
 {
     CW = -1,
@@ -12,4 +14,9 @@ public class BossData : GridData
     public int bulletDamage;
     public float speed;
     public Winding winding;
+    
+    public Sprite up;
+    public Sprite down;
+    public Sprite left;
+    public Sprite right;
 }

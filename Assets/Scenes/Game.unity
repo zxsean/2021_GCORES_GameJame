@@ -366,7 +366,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelData:
-  - {fileID: 8757542052694324320, guid: 95f7b3b38c6d2415bb59ca03d3ab50e1, type: 3}
+  - {fileID: 294901732635210499, guid: ba20158ccc9aa654aa4bf82b84130b40, type: 3}
   footstepSound: {fileID: 8300000, guid: 0398cbc243a25964cb938aa03e2c7fce, type: 3}
   dieSound: {fileID: 8300000, guid: 782a7c8f102c0cc4cae2c248d77b28e4, type: 3}
   bulletShootSound: {fileID: 8300000, guid: e70975b62d77f684cbfa7ce43bb40846, type: 3}

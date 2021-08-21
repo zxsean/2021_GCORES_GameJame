@@ -7,4 +7,8 @@ public class MonsterData : GridData
     public int damage;
     public float chaseRadius;
     public Vector2[] path;
+    public Sprite up;
+    public Sprite down;
+    public Sprite left;
+    public Sprite right;
 }

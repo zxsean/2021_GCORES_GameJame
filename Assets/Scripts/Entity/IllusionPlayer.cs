@@ -21,6 +21,11 @@ public class IllusionPlayer : IGrid, IEntity, IUpdatable, IEffectTarget, IPlayer
     
     private static MaterialPropertyBlock Mpb = new MaterialPropertyBlock();
     private static int BulerID = Shader.PropertyToID("_Blur");
+    
+    private Sprite Up { get; set; }
+    private Sprite Down { get; set; }
+    private Sprite Left { get; set; }
+    private Sprite Right { get; set; }
 
     public IllusionPlayer()
     {
@@ -36,6 +41,12 @@ public class IllusionPlayer : IGrid, IEntity, IUpdatable, IEffectTarget, IPlayer
         IsActive = true;
         Mpb.Clear();
         Renderer.GetPropertyBlock(Mpb);
+
+        var data = gameObject.GetComponent<IllusionPlayerData>();
+        Up = data.up;
+        Down = data.down;
+        Left = data.left;
+        Right = data.right;
     }
 
     public void Update()
@@ -56,21 +67,25 @@ public class IllusionPlayer : IGrid, IEntity, IUpdatable, IEffectTarget, IPlayer
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
         {
             offsetY += Speed * Time.deltaTime;
+            ((SpriteRenderer) Renderer).sprite = Up;
         }
 
         if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
             offsetY -= Speed * Time.deltaTime;
+            ((SpriteRenderer) Renderer).sprite = Down;
         }
 
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
             offsetX -= Speed * Time.deltaTime;
+            ((SpriteRenderer) Renderer).sprite = Left;
         }
 
         if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
             offsetX += Speed * Time.deltaTime;
+            ((SpriteRenderer) Renderer).sprite = Right;
         }
         
         var bounds = Renderer.bounds;
@@ -103,6 +118,7 @@ public class IllusionPlayer : IGrid, IEntity, IUpdatable, IEffectTarget, IPlayer
         transform.localPosition = pos;
         
         // 先用顶点颜色来模拟淡出效果
+        Renderer.GetPropertyBlock(Mpb);
         var blur = Mathf.Lerp(0, 1, (Time.realtimeSinceStartup - startTime) / Duration);
         Mpb.SetFloat(BulerID, blur);
         Renderer.SetPropertyBlock(Mpb);
@@ -111,6 +127,10 @@ public class IllusionPlayer : IGrid, IEntity, IUpdatable, IEffectTarget, IPlayer
     public void Reset()
     {
         IsActive = true;
+        var pos = transform.localPosition;
+        pos.x = CurPosX;
+        pos.y = CurPosY;
+        transform.localPosition = pos;
         gameObject.SetActive(true);
         startTime = Time.realtimeSinceStartup;
     }

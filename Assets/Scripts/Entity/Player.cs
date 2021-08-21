@@ -8,6 +8,11 @@ public class Player : Grid, IEntity, IUpdatable, IEffectTarget, IPlayer
     public bool IsActive { get; private set; }
     public float Speed { get; private set; }
     private float CurSpeed { get; set; }
+    
+    private Sprite Up { get; set; }
+    private Sprite Down { get; set; }
+    private Sprite Left { get; set; }
+    private Sprite Right { get; set; }
 
     public Player(GameObject asset) : base(asset)
     {
@@ -16,6 +21,11 @@ public class Player : Grid, IEntity, IUpdatable, IEffectTarget, IPlayer
         CurSpeed = Speed;
         Hp = data.hp;
         IsActive = true;
+
+        Up = data.up;
+        Down = data.down;
+        Left = data.left;
+        Right = data.right;
     }
 
     public void Update()
@@ -50,24 +60,28 @@ public class Player : Grid, IEntity, IUpdatable, IEffectTarget, IPlayer
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
         {
             offsetY += CurSpeed * Time.deltaTime;
+            ((SpriteRenderer) Renderer).sprite = Up;
             moved = true;
         }
 
         if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
             offsetY -= CurSpeed * Time.deltaTime;
+            ((SpriteRenderer) Renderer).sprite = Down;
             moved = true;
         }
 
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
             offsetX -= CurSpeed * Time.deltaTime;
+            ((SpriteRenderer) Renderer).sprite = Left;
             moved = true;
         }
 
         if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
             offsetX += CurSpeed * Time.deltaTime;
+            ((SpriteRenderer) Renderer).sprite = Right;
             moved = true;
         }
         

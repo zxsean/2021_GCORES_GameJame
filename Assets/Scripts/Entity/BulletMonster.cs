@@ -19,19 +19,24 @@ public class BulletMonster : Grid, IEntity, IUpdatable
         Interval = data.interval;
         BulletDamage = data.bulletDamage;
         BulletSpeed = data.bulletSpeed;
+        var sr = Renderer as SpriteRenderer;
         switch (data.direction)
         {
             case ShootDirection.Up:
                 Direction = Vector3.up;
+                sr.sprite = data.up;
                 break;
             case ShootDirection.Down:
                 Direction = Vector3.down;
+                sr.sprite = data.down;
                 break;
             case ShootDirection.Left:
                 Direction = Vector3.left;
+                sr.sprite = data.left;
                 break;
             case ShootDirection.Right:
                 Direction = Vector3.right;
+                sr.sprite = data.right;
                 break;
         }
     }

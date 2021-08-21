@@ -15,4 +15,8 @@ public class BulletMonsterData : GridData
     public float bulletSpeed;
     public int bulletDamage;
     public ShootDirection direction;
+    public Sprite up;
+    public Sprite down;
+    public Sprite left;
+    public Sprite right;
 }
