@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class RevertTrap : Grid, IFloor, IUpdatable, ITriggerFloor
@@ -12,6 +13,9 @@ public class RevertTrap : Grid, IFloor, IUpdatable, ITriggerFloor
     private Renderer UpRenderer { get; set; }
     private float Duration { get; set; }
     private float StartTime { get; set; }
+    
+    private Dictionary<IFlyer, bool> inDic = new Dictionary<IFlyer, bool>();
+
     
     public RevertTrap(GameObject asset) : base(asset)
     {
@@ -50,7 +54,15 @@ public class RevertTrap : Grid, IFloor, IUpdatable, ITriggerFloor
             var flyer = list[i];
             if (flyer is IGrid grid && grid.InRange(Renderer.bounds))
             {
-                flyer.RevertTarget();
+                if (!inDic.ContainsKey(flyer))
+                {
+                    flyer.RevertTarget();
+                    inDic.Add(flyer, true);
+                }
+            }
+            else
+            {
+                inDic.Remove(flyer);
             }
         }
     }
