@@ -7,21 +7,23 @@ using UnityEngine.UI;
 
 public class StartView : MonoBehaviour
 {
-    public Text tipsTxt;
-
+    public Button startBtn;
+    public Animation anim;
+    
+    private bool CanClicked { get; set; }
+    
     private void Start()
     {
+        CanClicked = false;
         AudioMgr.PlayContinueMusic(Game.NormalMusic);
-    }
-
-    private void Update()
-    {
-        var color = tipsTxt.color;
-        color.a = Mathf.Sin(3 * Time.realtimeSinceStartup) * 0.5f + 0.5f;
-        tipsTxt.color = color;
-        if (Input.anyKeyDown)
+        anim.Play("startview", () =>
         {
+            CanClicked = true;
+        });
+        startBtn.onClick.AddListener(() =>
+        {
+            if (!CanClicked) return;
             Game.Start();
-        }
+        });
     }
 }
