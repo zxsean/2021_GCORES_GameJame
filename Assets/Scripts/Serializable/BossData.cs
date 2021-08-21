@@ -13,6 +13,7 @@ public class BossData : GridData
     public float bulletSpeed;
     public int bulletDamage;
     public float bulletDuration;
+    public float bulletRevertSpeed;
     public float speed;
     public Winding winding;
     

@@ -99,6 +99,7 @@ MonoBehaviour:
   bulletSpeed: 5
   bulletDamage: 1
   bulletDuration: 5
+  bulletRevertSpeed: 10
   speed: 30
   winding: -1
   up: {fileID: 21300000, guid: cdef8763ce90a2c46bea93c6c754dea7, type: 3}

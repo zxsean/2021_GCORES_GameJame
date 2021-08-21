@@ -10,6 +10,7 @@ public class BulletEffect : IEffect, IGrid, IUpdatable, IMovatable, IFlyer
     public float SpeedDecayStartTime { get; set; }
     public float SpeedDecayTime { get; set; }
     public float Speed { get; set; }
+    public float RevertSpeed { get; set; }
     public int Damage { get; set; }
     public float Duration { get; set; }
     private float StartTime { get; set; }
@@ -118,5 +119,6 @@ public class BulletEffect : IEffect, IGrid, IUpdatable, IMovatable, IFlyer
     {
         EntityMgr.GetAll<Boss>(out var list);
         Target = list[0];
+        Speed = RevertSpeed;
     }
 }
