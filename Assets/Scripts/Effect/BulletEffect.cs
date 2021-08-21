@@ -11,6 +11,8 @@ public class BulletEffect : IEffect, IGrid, IUpdatable, IMovatable, IFlyer
     public float SpeedDecayTime { get; set; }
     public float Speed { get; set; }
     public int Damage { get; set; }
+    public float Duration { get; set; }
+    private float StartTime { get; set; }
 
     public int Row { get; }
     public int Col { get; }
@@ -49,6 +51,7 @@ public class BulletEffect : IEffect, IGrid, IUpdatable, IMovatable, IFlyer
         Renderer = gameObject.GetComponent<Renderer>();
         gameObject.SetActive(true);
         IsDestroy = false;
+        StartTime = Time.realtimeSinceStartup;
     }
 
     public void Destroy()
@@ -59,6 +62,13 @@ public class BulletEffect : IEffect, IGrid, IUpdatable, IMovatable, IFlyer
     
     public void Update()
     {
+        // 时间到了，销毁
+        if (Time.realtimeSinceStartup - StartTime >= Duration)
+        {
+            IsDestroy = true;
+            return;
+        }
+        
         // 碰到障碍物，销毁
         FloorMgr.GetAll<Barrier>(out var list);
         for (var i = 0; i < list.Count; ++i)
