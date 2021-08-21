@@ -36,10 +36,10 @@ public class TimeStopFruit : Grid, IFloor, IUpdatable
             if (player is IGrid grid && grid.InRange(Renderer.bounds))
             {
                 var effect = EffectMgr.CreateTargetEffect<IEffectTarget, TimeStopEffect>((IEffectTarget)player);
-                effect.Duration = Duration;
-                effect.Radius = Radius;
                 effect.DecayTime = DecayTime;
                 effect.Target = player;
+                effect.Duration = Duration;
+                effect.Radius = Radius;
                 startCDTime = Time.realtimeSinceStartup;
                 SwitchState(true);
             }

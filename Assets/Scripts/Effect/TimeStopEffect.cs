@@ -18,13 +18,24 @@ public class TimeStopEffect : IEffect, IUpdatable
     }
     public float Duration { get; set; }
     public float DecayTime { get; set; }
-    public IPlayer Target { get; set; }
-    
+
+    public IPlayer Target
+    {
+        get => target;
+        set
+        {
+            target = value;
+            var bounds = target.Renderer.bounds;
+            transform.localPosition = bounds.center;
+        }
+    }
+
     private GameObject gameObject { get; set; }
     private Transform transform { get; set; }
     private Renderer Renderer { get; set; }
 
     private float radius;
+    private IPlayer target;
     private float startTime;
     
     private static MaterialPropertyBlock Mpb = new MaterialPropertyBlock();
@@ -85,10 +96,10 @@ public class TimeStopEffect : IEffect, IUpdatable
     public void Reset()
     {
         startTime = Time.realtimeSinceStartup;
-        gameObject.SetActive(true);
-        
+
         Mpb.Clear();
         Renderer.GetPropertyBlock(Mpb);
+        gameObject.SetActive(true);
     }
 
     public void Destroy()

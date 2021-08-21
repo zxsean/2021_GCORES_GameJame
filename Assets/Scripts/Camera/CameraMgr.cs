@@ -31,11 +31,11 @@ public static class CameraMgr
             return;
         }
 
-        var pos = FollowTarget.position;
-        var camPos = CameraTrans.position;
+        var pos = FollowTarget.localPosition;
+        var camPos = CameraTrans.localPosition;
         camPos.x = pos.x;
         camPos.y = pos.y;
-        CameraTrans.position = camPos;
+        CameraTrans.localPosition = camPos;
     }
 
     public static void Clear()
