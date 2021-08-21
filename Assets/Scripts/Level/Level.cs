@@ -46,6 +46,8 @@ public class Level
         {
             Anim.Play("level_enter");
         }
+        
+        CameraMgr.Follow(EntityMgr.Player.transform);
     }
     
     
@@ -69,6 +71,7 @@ public class Level
 
     public void Exit(bool anim = true)
     {
+        CameraMgr.UnFollow();
         Clear();
         if (anim)
         {

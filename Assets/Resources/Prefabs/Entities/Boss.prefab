@@ -98,3 +98,5 @@ MonoBehaviour:
   interval: 1
   bulletSpeed: 5
   bulletDamage: 1
+  speed: 30
+  winding: -1

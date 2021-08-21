@@ -2,7 +2,6 @@
 
 public static class Game
 {
-    public static Camera Camera { get; private set; }
     public static Transform Root { get; private set; }
     private static GameObject EndView { get; set; }
     private static GameObject StartView { get; set; }
@@ -19,7 +18,7 @@ public static class Game
 
     public static void Init()
     {
-        Camera = Camera.main;
+        CameraMgr.Init();
         Root = GameObject.Find("Game").transform;
         
         var startView = Resources.Load<GameObject>("Prefabs/UI/StartView");
@@ -36,7 +35,7 @@ public static class Game
         EndView.transform.SetParent(canvas, false);
         
         AudioMgr.Root = GameObject.Find("Audio");
-        
+
         StartView.SetActive(true);
     }
 
@@ -60,6 +59,7 @@ public static class Game
     {
         LevelMgr.Update();
         AnimationMgr.Update();
+        CameraMgr.Update();
     }
 
     public static void End()
@@ -73,5 +73,6 @@ public static class Game
     public static void Destroy()
     {
         AnimationMgr.Clear();
+        CameraMgr.Clear();
     }
 }
