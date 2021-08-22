@@ -72,6 +72,7 @@ public class Level
     public void Exit(bool anim = true)
     {
         CameraMgr.UnFollow();
+        AudioMgr.StopAllSound();
         Clear();
         if (anim)
         {

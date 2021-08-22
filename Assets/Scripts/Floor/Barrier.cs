@@ -12,4 +12,10 @@ public class Barrier : Grid, IFloor
     {
         Type = ((FloorData) RawData).type;
     }
+
+    public override bool InRange(Bounds bounds)
+    {
+        var selfBounds = Renderer.bounds;
+        return selfBounds.Intersects(bounds);
+    }
 }
