@@ -45,7 +45,7 @@ public class Monster : Grid, IEntity, IUpdatable, IMovatable
         
         Mpb.Clear();
         Renderer.GetPropertyBlock(Mpb);
-        Mpb.SetInt(BlurID, 0);
+        Mpb.SetFloat(BlurID, 0);
         Renderer.SetPropertyBlock(Mpb);
     }
     
@@ -56,7 +56,7 @@ public class Monster : Grid, IEntity, IUpdatable, IMovatable
             // 红色
             ((SpriteRenderer)Renderer).color = Color.red;
             Renderer.GetPropertyBlock(Mpb);
-            Mpb.SetInt(BlurID, 1);
+            Mpb.SetFloat(BlurID, 0.5f);
             Renderer.SetPropertyBlock(Mpb);
             //gameObject.SetActive(false);
             IsDestroy = true;

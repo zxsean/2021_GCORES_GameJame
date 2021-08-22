@@ -32,7 +32,7 @@ public class Player : Grid, IEntity, IUpdatable, IEffectTarget, IPlayer
         
         Mpb.Clear();
         Renderer.GetPropertyBlock(Mpb);
-        Mpb.SetInt(BlurID, 0);
+        Mpb.SetFloat(BlurID, 0);
         Renderer.SetPropertyBlock(Mpb);
     }
 
@@ -52,7 +52,7 @@ public class Player : Grid, IEntity, IUpdatable, IEffectTarget, IPlayer
             // 红色
             ((SpriteRenderer)Renderer).color = Color.red;
             Renderer.GetPropertyBlock(Mpb);
-            Mpb.SetInt(BlurID, 1);
+            Mpb.SetFloat(BlurID, 0.5f);
             Renderer.SetPropertyBlock(Mpb);
             
             AudioMgr.PlaySound(Game.DieSound);

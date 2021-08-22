@@ -33,6 +33,10 @@ public class Boss : Grid, IEntity, IUpdatable
     private Sprite Down { get; set; }
     private Sprite Left { get; set; }
     private Sprite Right { get; set; }
+    
+    private static MaterialPropertyBlock Mpb = new MaterialPropertyBlock();
+    private static int BlurID = Shader.PropertyToID("_Blur");
+
 
     public Boss(GameObject asset) : base(asset)
     {
@@ -53,17 +57,15 @@ public class Boss : Grid, IEntity, IUpdatable
         Down = data.down;
         Left = data.left;
         Right = data.right;
+        
+        Mpb.Clear();
+        Renderer.GetPropertyBlock(Mpb);
+        Mpb.SetFloat(BlurID, 0);
+        Renderer.SetPropertyBlock(Mpb);
     }
     
     public void Update()
     {
-        if (Hp <= 0)
-        {
-            // 通关！
-            IsDestroy = true;
-            LevelMgr.NextLevel();
-        }
-
         var sr = Renderer as SpriteRenderer;
         var color = sr.color;
         if (IsHurt)
@@ -76,6 +78,21 @@ public class Boss : Grid, IEntity, IUpdatable
         else
         {
             sr.color = Color.white;
+        }
+        
+        if (Hp <= 0)
+        {
+            Mpb.Clear();
+            Renderer.GetPropertyBlock(Mpb);
+            Mpb.SetFloat(BlurID, 0.5f);
+            Renderer.SetPropertyBlock(Mpb);
+            // 通关！
+            IsDestroy = true;
+            LevelMgr.CurLevel.Pause();
+            CameraMgr.Move(transform.localPosition, () =>
+            {
+                LevelMgr.NextLevel();
+            });
         }
 
         // move

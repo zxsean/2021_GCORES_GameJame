@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public static class CameraMgr
 {
@@ -6,6 +7,11 @@ public static class CameraMgr
     private static Transform CameraTrans { get; set; }
     
     private static Transform FollowTarget { get; set; }
+    
+    private static Vector3 MoveInitPos { get; set; }
+    private static float MoveOffset { get; set; }
+    private static Vector3 MoveTarget { get; set; }
+    private static Action MoveFinished { get; set; }
     
     // private static float Radius { get; set; }
     // private static float MoveSpeed { get; set; }
@@ -22,15 +28,44 @@ public static class CameraMgr
     public static void Follow(Transform trans)
     {
         FollowTarget = trans;
+        MoveTarget = default;
     }
 
     public static void UnFollow()
     {
         FollowTarget = null;
     }
+
+    public static void Move(Vector3 pos, Action onFinished = null)
+    {
+        FollowTarget = null;
+        MoveInitPos = CameraTrans.localPosition;
+        MoveTarget = pos;
+        MoveOffset = 0.0f;
+        MoveFinished = onFinished;
+    }
     
     public static void Update()
     {
+        // 移动目标
+        if (MoveTarget != default)
+        {
+            MoveOffset += Time.deltaTime;
+            var curPos = Vector3.Lerp(MoveInitPos, MoveTarget, MoveOffset);
+            var curCamPos = CameraTrans.localPosition;
+            curCamPos.x = curPos.x;
+            curCamPos.y = curPos.y;
+            CameraTrans.localPosition = curCamPos;
+            if (MoveOffset >= 1.0f)
+            {
+                MoveOffset = 0.0f;
+                MoveTarget = default;
+                MoveInitPos = default;
+                MoveFinished?.Invoke();
+            }
+            return;
+        }
+        
         // 跟随目标
         if (FollowTarget == null)
         {
