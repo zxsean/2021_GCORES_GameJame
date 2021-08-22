@@ -16,6 +16,9 @@ public class Barrier : Grid, IFloor
     public override bool InRange(Bounds bounds)
     {
         var selfBounds = Renderer.bounds;
+        var extends = selfBounds.extents;
+        extends.y *= 0.7f;
+        selfBounds.extents = extends;
         return selfBounds.Intersects(bounds);
     }
 }
