@@ -67,8 +67,17 @@ public class BulletEffect : IEffect, IGrid, IUpdatable, IMovatable, IFlyer
     
     public void Update()
     {
+        // 最后1s渐变消失
+        var passTime = Time.realtimeSinceStartup - StartTime;
+        if (passTime >= Duration - 1.0f)
+        {
+            var sr = (SpriteRenderer) Renderer;
+            var color = sr.color;
+            color.a = Mathf.Lerp(0, 1, Duration - passTime);
+            sr.color = color;
+        }
         // 时间到了，销毁
-        if (Time.realtimeSinceStartup - StartTime >= Duration)
+        if (passTime >= Duration)
         {
             IsDestroy = true;
             return;
