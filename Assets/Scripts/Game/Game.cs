@@ -6,7 +6,8 @@ public static class Game
     private static GameObject EndView { get; set; }
     private static GameObject StartView { get; set; }
     public static TransitionView TransitionView { get; private set; }
-
+    public static BossView BossView { get; set; }
+    
     public static AudioClip FootStepSound { get; set; }
     public static AudioClip DieSound { get; set; }
     public static AudioClip BulletShootSound { get; set; }
@@ -24,8 +25,12 @@ public static class Game
         var startView = Resources.Load<GameObject>("Prefabs/UI/StartView");
         var endView = Resources.Load<GameObject>("Prefabs/UI/EndView");
         var transitionView = Resources.Load<GameObject>("Prefabs/UI/TransitionView");
+        var bossView = Resources.Load<GameObject>("Prefabs/UI/BossView");
         var canvas = GameObject.Find("Canvas").transform;
         
+        bossView = Object.Instantiate(bossView, Vector3.zero, Quaternion.identity);
+        bossView.transform.SetParent(canvas, false);
+        BossView = bossView.GetComponent<BossView>();
         transitionView = Object.Instantiate(transitionView, Vector3.zero, Quaternion.identity);
         transitionView.transform.SetParent(canvas, false);
         TransitionView = transitionView.GetComponent<TransitionView>();
@@ -33,7 +38,8 @@ public static class Game
         StartView.transform.SetParent(canvas, false);
         EndView = Object.Instantiate(endView, Vector3.zero, Quaternion.identity);
         EndView.transform.SetParent(canvas, false);
-        
+
+
         AudioMgr.Root = GameObject.Find("Audio");
 
         StartView.SetActive(true);
@@ -44,6 +50,7 @@ public static class Game
         Root.gameObject.SetActive(true);
         StartView.SetActive(false);
         EndView.SetActive(false);
+        BossView.gameObject.SetActive(false);
         TransitionView.PlayHide();
         LevelMgr.CreateAndEnterLevel(0, false);
     }
@@ -52,6 +59,7 @@ public static class Game
     {
         Root.gameObject.SetActive(true);
         EndView.SetActive(false);
+        BossView.gameObject.SetActive(false);
         LevelMgr.ReStart();
     }
 
@@ -68,6 +76,7 @@ public static class Game
         AudioMgr.StopAllSound();
         //Root.gameObject.SetActive(false);
         EndView.SetActive(true);
+        BossView.gameObject.SetActive(false);
     }
 
     public static void Destroy()

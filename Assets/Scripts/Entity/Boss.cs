@@ -11,6 +11,8 @@ public class Boss : Grid, IEntity, IUpdatable
         {
             hp = value;
             IsHurt = true;
+            var progress = (float)hp / ((BossData) RawData).hp;
+            Game.BossView.SetProgress(progress);
         }
     }
     public bool IsDestroy { get; private set; }
@@ -40,6 +42,8 @@ public class Boss : Grid, IEntity, IUpdatable
 
     public Boss(GameObject asset) : base(asset)
     {
+        Game.BossView.gameObject.SetActive(true);
+        
         var data = (BossData) RawData;
         Hp = data.hp;
         Interval = data.interval;
