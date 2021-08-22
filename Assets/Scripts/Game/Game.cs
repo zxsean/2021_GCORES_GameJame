@@ -5,7 +5,7 @@ public static class Game
     public static Transform Root { get; private set; }
     private static GameObject EndView { get; set; }
     private static GameObject StartView { get; set; }
-    private static TransitionView TransitionView { get; set; }
+    public static TransitionView TransitionView { get; private set; }
 
     public static AudioClip FootStepSound { get; set; }
     public static AudioClip DieSound { get; set; }
