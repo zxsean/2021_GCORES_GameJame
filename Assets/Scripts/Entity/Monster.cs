@@ -33,7 +33,7 @@ public class Monster : Grid, IEntity, IUpdatable, IMovatable
         Speed = data.speed;
         Damage = data.damage;
         
-        rotateMat = Matrix4x4.Rotate(Quaternion.Euler(0, 0, 30.0f));
+        rotateMat = Matrix4x4.Rotate(Quaternion.Euler(0, 0, 90.0f));
         ChaseRadius = data.chaseRadius;
         ChaseRadius2 = ChaseRadius * ChaseRadius;
         Path = data.path;
@@ -99,8 +99,15 @@ public class Monster : Grid, IEntity, IUpdatable, IMovatable
                     FloorMgr.GetAll<Barrier>(out var bList);
                     for (var j = 0; j < bList.Count; ++j)
                     {
+                        var count = 0;
                         while (bList[j].InRange(targetBounds))
                         {
+                            if (count > 100)
+                            {
+                                dir *= -1;
+                                break;
+                            }
+                            ++count;
                             // 修正下方向
                             dir = rotateMat.MultiplyVector(dir);
                             targetBounds = Renderer.bounds;

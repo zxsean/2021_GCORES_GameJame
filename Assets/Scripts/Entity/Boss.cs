@@ -31,11 +31,10 @@ public class Boss : Grid, IEntity, IUpdatable
     private float Length { get; set; }
     private bool IsHurt { get; set; }
     
-    private Sprite Up { get; set; }
-    private Sprite Down { get; set; }
-    private Sprite Left { get; set; }
-    private Sprite Right { get; set; }
-    
+    private Sprite Idle { get; set; }
+    private Sprite Attack { get; set; }
+    private Sprite Die { get; set; }
+
     private static MaterialPropertyBlock Mpb = new MaterialPropertyBlock();
     private static int BlurID = Shader.PropertyToID("_Blur");
 
@@ -57,11 +56,10 @@ public class Boss : Grid, IEntity, IUpdatable
         Winding = (int) data.winding;
         Length = 2 * Mathf.PI * Radius;
         
-        Up = data.up;
-        Down = data.down;
-        Left = data.left;
-        Right = data.right;
-        
+        Idle = data.idle;
+        Attack = data.attack;
+        Die = data.die;
+
         Mpb.Clear();
         Renderer.GetPropertyBlock(Mpb);
         Mpb.SetFloat(BlurID, 0);
@@ -86,6 +84,7 @@ public class Boss : Grid, IEntity, IUpdatable
         
         if (Hp <= 0)
         {
+            ChangeSprite(Die);
             Mpb.Clear();
             Renderer.GetPropertyBlock(Mpb);
             Mpb.SetFloat(BlurID, 0.5f);
@@ -93,6 +92,7 @@ public class Boss : Grid, IEntity, IUpdatable
             // 通关！
             IsDestroy = true;
             LevelMgr.CurLevel.Pause();
+            Game.BossView.gameObject.SetActive(false);
             CameraMgr.Move(transform.localPosition, () =>
             {
                 LevelMgr.NextLevel();
@@ -107,8 +107,7 @@ public class Boss : Grid, IEntity, IUpdatable
         pos.x = pos.x * Mathf.Cos(rand) - pos.y * Mathf.Sin(rand);
         pos.y = pos.x * Mathf.Sin(rand) + pos.y * Mathf.Cos(rand);
         transform.localPosition = pos;
-        ChangeSprite(-pos);
-        
+
         // 玩家碰到死
         EntityMgr.GetAll<IPlayer>(out var list);
         for (var i = 0; i < list.Count; ++i)
@@ -118,6 +117,16 @@ public class Boss : Grid, IEntity, IUpdatable
             {
                 ((IEntity)p).Hp -= BulletDamage;
             }
+        }
+        
+        if (Time.realtimeSinceStartup - LastTime >= Interval * 0.85f ||
+            Time.realtimeSinceStartup - LastTime <= Interval * 0.15f)
+        {
+            ChangeSprite(Attack);
+        }
+        else
+        {
+            ChangeSprite(Idle);
         }
 
         // shoot bullet in interval
@@ -136,26 +145,9 @@ public class Boss : Grid, IEntity, IUpdatable
         }
     }
     
-    private void ChangeSprite(Vector3 dir)
+    private void ChangeSprite(Sprite sprite)
     {
-        dir = dir.normalized;
         var sr = Renderer as SpriteRenderer;
-        const float cos45 = 0.707f;
-        if (Vector3.Dot(dir, Vector3.up) > cos45)
-        {
-            sr.sprite = Up;
-        }
-        else if (Vector3.Dot(dir, Vector3.down) > cos45)
-        {
-            sr.sprite = Down;
-        }
-        else if (Vector3.Dot(dir, Vector3.left) > cos45)
-        {
-            sr.sprite = Left;
-        }
-        else if (Vector3.Dot(dir, Vector3.right) > cos45)
-        {
-            sr.sprite = Right;
-        }
+        sr.sprite = sprite;
     }
 }

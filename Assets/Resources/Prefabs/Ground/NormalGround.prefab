@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3793278722479805184}
   - component: {fileID: 3793278722479805185}
   m_Layer: 19
-  m_Name: NormalFloor
+  m_Name: NormalGround
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -68,7 +68,7 @@ SpriteRenderer:
   m_SortingLayerID: -341155527
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 928ed664f0a3144f78984a498ed58bd1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ea27673c8001c47dea489ccdfbd60fed, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

@@ -18,8 +18,7 @@ public class BossData : GridData
     public float speed;
     public Winding winding;
     
-    public Sprite up;
-    public Sprite down;
-    public Sprite left;
-    public Sprite right;
+    public Sprite idle;
+    public Sprite attack;
+    public Sprite die;
 }

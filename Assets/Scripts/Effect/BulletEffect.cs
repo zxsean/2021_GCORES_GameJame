@@ -128,6 +128,11 @@ public class BulletEffect : IEffect, IGrid, IUpdatable, IMovatable, IFlyer
         Speed += Acceleration * t;
         pos += dir * (Speed * t * SpeedFactor);
         transform.localPosition = pos;
+        var theta = Vector3.Dot(dir, Vector3.right);
+        theta = Mathf.Acos(theta);
+        theta = dir.y >= 0 ? theta : -theta;
+        theta *= Mathf.Rad2Deg;
+        transform.localRotation = Quaternion.Euler(0, 0, theta);
     }
 
     public void RevertTarget()

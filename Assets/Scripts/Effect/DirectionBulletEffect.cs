@@ -100,6 +100,11 @@ public class DirectionBulletEffect : IEffect, IGrid, IUpdatable, IMovatable, IFl
         var pos = transform.localPosition;
         pos += Direction * (Speed * SpeedFactor * Time.deltaTime);
         transform.localPosition = pos;
+        var theta = Vector3.Dot(Direction, Vector3.right);
+        theta = Mathf.Acos(theta);
+        theta = Direction.y >= 0 ? theta : -theta;
+        theta *= Mathf.Rad2Deg;
+        transform.localRotation = Quaternion.Euler(0, 0, theta);
     }
 
 
