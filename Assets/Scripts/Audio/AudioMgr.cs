@@ -56,6 +56,7 @@ public static class AudioMgr
             freeSource = Root.AddComponent<AudioSource>();
             freeSource.loop = false;
             freeSource.playOnAwake = false;
+            freeSource.volume = 0.1f;
             soundSources.Add(freeSource);
         }
 
