@@ -91,7 +91,7 @@ public class Boss : Grid, IEntity, IUpdatable
         for (var i = 0; i < list.Count; ++i)
         {
             var p = list[i];
-            if (p is IGrid grid && grid.InRange(Renderer.bounds))
+            if (p is IGrid grid && InRange(grid.Renderer.bounds))
             {
                 ((IEntity)p).Hp -= BulletDamage;
             }

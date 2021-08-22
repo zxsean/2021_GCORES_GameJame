@@ -24,7 +24,9 @@ public class BulletEffect : IEffect, IGrid, IUpdatable, IMovatable, IFlyer
     public float CurPosY { get; set; }
     public bool InRange(Bounds bounds)
     {
-        return Renderer.bounds.Intersects(bounds);
+        var selfBounds = Renderer.bounds;
+        selfBounds.extents *= 0.8f;
+        return selfBounds.Intersects(bounds);
     }
 
     public IEntity Target { get; set; }
@@ -75,7 +77,7 @@ public class BulletEffect : IEffect, IGrid, IUpdatable, IMovatable, IFlyer
         for (var i = 0; i < list.Count; ++i)
         {
             var barrier = list[i];
-            if (barrier.InRange(Renderer.bounds))
+            if (InRange(barrier.Renderer.bounds))
             {
                 IsDestroy = true;
                 return;
@@ -88,7 +90,7 @@ public class BulletEffect : IEffect, IGrid, IUpdatable, IMovatable, IFlyer
             var entity = eList[i];
             if (entity == Target && 
                 entity is IGrid grid && 
-                grid.InRange(Renderer.bounds))
+                InRange(grid.Renderer.bounds))
             {
                 AudioMgr.PlaySound(Game.BulletHitSound);
                 entity.Hp -= Damage;

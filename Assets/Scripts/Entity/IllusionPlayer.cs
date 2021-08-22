@@ -137,6 +137,8 @@ public class IllusionPlayer : IGrid, IEntity, IUpdatable, IEffectTarget, IPlayer
     
     public bool InRange(Bounds bounds)
     {
-        return Renderer.bounds.Intersects(bounds);
+        var selfBounds = Renderer.bounds;
+        selfBounds.extents *= 0.5f;
+        return selfBounds.Intersects(bounds);
     }
 }

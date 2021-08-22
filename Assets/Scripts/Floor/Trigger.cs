@@ -35,7 +35,7 @@ public class Trigger : Grid, IFloor, IUpdatable
         for (var i = 0; i < list.Count; ++i)
         {
             var trigger = list[i];
-            if (trigger.InRange(Renderer.bounds))
+            if (InRange(trigger.Renderer.bounds))
             {
                 if (!inDic.ContainsKey(trigger))
                 {
