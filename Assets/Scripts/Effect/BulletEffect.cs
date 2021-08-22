@@ -37,6 +37,8 @@ public class BulletEffect : IEffect, IGrid, IUpdatable, IMovatable, IFlyer
     {
         set => transform.localPosition = value;
     }
+    
+    private Animation Anim { get; set; }
 
     public BulletEffect()
     {
@@ -54,6 +56,7 @@ public class BulletEffect : IEffect, IGrid, IUpdatable, IMovatable, IFlyer
         });
         transform = gameObject.transform;
         Renderer = gameObject.GetComponent<Renderer>();
+        Anim = gameObject.GetComponent<Animation>();
         gameObject.SetActive(true);
         IsDestroy = false;
         StartTime = Time.realtimeSinceStartup;
@@ -61,21 +64,22 @@ public class BulletEffect : IEffect, IGrid, IUpdatable, IMovatable, IFlyer
 
     public void Destroy()
     {
-        gameObject.SetActive(false);
-        PoolMgr<GameObject>.Return("BulletEffect", gameObject);
+        Anim.Play("bullet_fadeout", () =>
+        {
+            var sr = (SpriteRenderer) Renderer;
+            var color = sr.color;
+            color.a = 1.0f;
+            sr.color = color;
+            //播放消失动画
+            gameObject.SetActive(false);
+            PoolMgr<GameObject>.Return("BulletEffect", gameObject);
+        });
     }
     
     public void Update()
     {
         // 最后1s渐变消失
         var passTime = Time.realtimeSinceStartup - StartTime;
-        if (passTime >= Duration - 1.0f)
-        {
-            var sr = (SpriteRenderer) Renderer;
-            var color = sr.color;
-            color.a = Mathf.Lerp(0, 1, Duration - passTime);
-            sr.color = color;
-        }
         // 时间到了，销毁
         if (passTime >= Duration)
         {

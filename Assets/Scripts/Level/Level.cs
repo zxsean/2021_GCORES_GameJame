@@ -93,6 +93,7 @@ public class Level
         EntityMgr.Clear();
         EffectMgr.Clear();
         PoolMgr<GameObject>.Clear();
+        AnimationMgr.Clear();
     }
 
     public bool Contains(Bounds bounds)

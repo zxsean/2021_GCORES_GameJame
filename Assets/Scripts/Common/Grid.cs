@@ -60,7 +60,10 @@ public class Grid : IGrid
     public virtual bool InRange(Bounds bounds)
     {
         var selfBounds = Renderer.bounds;
-        selfBounds.extents *= 0.6f;
+        var extends = selfBounds.extents;
+        extends.x -= 0.2f;
+        extends.y -= 0.2f;
+        selfBounds.extents = extends;
         return selfBounds.Intersects(bounds);
     }
 }

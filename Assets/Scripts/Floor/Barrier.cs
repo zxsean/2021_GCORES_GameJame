@@ -17,7 +17,8 @@ public class Barrier : Grid, IFloor
     {
         var selfBounds = Renderer.bounds;
         var extends = selfBounds.extents;
-        extends.y *= 0.7f;
+        extends.x -= 0.3f;
+        extends.y -= 0.3f;
         selfBounds.extents = extends;
         return selfBounds.Intersects(bounds);
     }
