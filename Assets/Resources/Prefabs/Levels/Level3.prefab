@@ -10427,7 +10427,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\u5C0F\u5FC3\uFF01"
+  m_Text: Caution
 --- !u!1 &2993778381729240771
 GameObject:
   m_ObjectHideFlags: 0
@@ -14474,7 +14474,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2380215716403629596
 RectTransform:
   m_ObjectHideFlags: 0
@@ -20588,16 +20588,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6173823149078670064}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5970156129337949933}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -354, y: -307}
+  m_AnchoredPosition: {x: -344, y: -302}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5149030493689596032
@@ -20641,7 +20641,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\u673A\u5173"
+  m_Text: '>>>'
 --- !u!1 &6223518206706440105
 GameObject:
   m_ObjectHideFlags: 0
@@ -29307,7 +29307,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4677480510682638267
 RectTransform:
   m_ObjectHideFlags: 0
@@ -29368,7 +29368,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\u4E00\u4E2A\u5730\u523A\u9677\u9631\n\u4F46\u9700\u8981\u673A\u5173\u5F00\u542F"
+  m_Text: Caution
 --- !u!1 &8360531687433944522
 GameObject:
   m_ObjectHideFlags: 0
@@ -32705,11 +32705,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8629403812114667711}
     m_Modifications:
-    - target: {fileID: 6040421976529276583, guid: e9f16c9a718a4314888e448c30876cab,
-        type: 3}
-      propertyPath: m_Name
-      value: Trigger
-      objectReference: {fileID: 0}
     - target: {fileID: 6040421976529276248, guid: e9f16c9a718a4314888e448c30876cab,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -32764,6 +32759,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6040421976529276583, guid: e9f16c9a718a4314888e448c30876cab,
+        type: 3}
+      propertyPath: m_Name
+      value: Trigger
       objectReference: {fileID: 0}
     - target: {fileID: 3995335838236978220, guid: e9f16c9a718a4314888e448c30876cab,
         type: 3}
@@ -33245,11 +33245,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8629403812114667711}
     m_Modifications:
-    - target: {fileID: 6040421976529276583, guid: c7c2f21a5520af24cb6be2bf1c476add,
-        type: 3}
-      propertyPath: m_Name
-      value: IllusionGen
-      objectReference: {fileID: 0}
     - target: {fileID: 6040421976529276248, guid: c7c2f21a5520af24cb6be2bf1c476add,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -33304,6 +33299,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6040421976529276583, guid: c7c2f21a5520af24cb6be2bf1c476add,
+        type: 3}
+      propertyPath: m_Name
+      value: IllusionGen
       objectReference: {fileID: 0}
     - target: {fileID: 1962980904259215371, guid: c7c2f21a5520af24cb6be2bf1c476add,
         type: 3}
