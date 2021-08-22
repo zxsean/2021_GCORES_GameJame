@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 public class EndView : MonoBehaviour
 {
     [SerializeField]
     private float speed;
-    
+
     public RectTransform content;
-    
 
     private void Start()
     {
@@ -19,8 +14,11 @@ public class EndView : MonoBehaviour
 
     private void Update()
     {
-        var pos = content.anchoredPosition;
-        pos.y += speed * Time.deltaTime;
-        content.anchoredPosition = pos;
+        if (content.anchoredPosition.y <= 1240)
+        {
+            var pos = content.anchoredPosition;
+            pos.y += speed * Time.deltaTime;
+            content.anchoredPosition = pos;
+        }
     }
 }
