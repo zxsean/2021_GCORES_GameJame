@@ -15,6 +15,8 @@ public class SpikeTrap : Grid, IFloor, IUpdatable, ITriggerFloor
     private Renderer DownRenderer { get; set; }
     private GameObject Up { get; set; }
     private Renderer UpRenderer { get; set; }
+    private float Duration { get; set; }
+    private float StartTime { get; set; }
 
     public SpikeTrap(GameObject asset) : base(asset)
     {
@@ -23,6 +25,7 @@ public class SpikeTrap : Grid, IFloor, IUpdatable, ITriggerFloor
         var data = (SpikeTrapData) RawData;
         TriggerId = data.triggerId;
         Damage = data.damage;
+        Duration = data.duration;
 
         Down = transform.Find("Down").gameObject;
         Up = transform.Find("Up").gameObject;
@@ -35,6 +38,14 @@ public class SpikeTrap : Grid, IFloor, IUpdatable, ITriggerFloor
     {
         if (!IsTrigger)
         {
+            return;
+        }
+        
+        // Duration到了就恢复原状
+        if (Time.realtimeSinceStartup - StartTime >= Duration)
+        {
+            IsTrigger = false;
+            SwitchState();
             return;
         }
         
@@ -52,11 +63,14 @@ public class SpikeTrap : Grid, IFloor, IUpdatable, ITriggerFloor
 
     public bool Trigger(ITriggerGrid trigger)
     {
+        if (IsTrigger && Time.realtimeSinceStartup - StartTime < Duration) return false;
+
         if (!(trigger is IPlayer))
         {
             return false;
         }
         
+        StartTime = Time.realtimeSinceStartup;
         IsTrigger = true;
         SwitchState();
         return true;

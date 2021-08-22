@@ -208,3 +208,4 @@ MonoBehaviour:
   type: 7
   damage: 1
   triggerId: 0
+  duration: 5

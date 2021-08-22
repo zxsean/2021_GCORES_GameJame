@@ -2,4 +2,5 @@
 {
     public int damage;
     public int triggerId;
+    public float duration;
 }
