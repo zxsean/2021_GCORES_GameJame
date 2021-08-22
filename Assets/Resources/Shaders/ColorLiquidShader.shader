@@ -2,7 +2,8 @@
 {
     Properties
     {
-
+        [PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
+        _Blur("Blur", Range(0, 1)) = 0.0
     }
     SubShader
     {
@@ -12,9 +13,11 @@
             "IgnoreProjector"="True"
             "RenderType"="Transparent"
             "PreviewType"="Plane"
+            "CanUseSpriteAtlas"="True"
         }
         
         Cull Off
+        Lighting Off
         ZWrite Off
         Blend One OneMinusSrcAlpha
 
@@ -41,25 +44,31 @@
             };
 
             sampler2D _MainTex;
+            float _Blur;
 
             v2f vert (appdata v)
             {
                 v2f o;
-                v.vertex.y += sin(_Time.w + v.vertex.x) * v.vertex.y;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = v.uv;
                 o.color = v.color;
                 return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            float4 frag (v2f i) : SV_Target
             {
-                // sample the texture
-                //fixed4 col = tex2D(_MainTex, i.uv) * i.color;
-                float4 color = float4(1.0, 0.0, 0.0, 1.0);
-                color.rgb *= cos(_Time.y) * 0.5 + 0.5;
-                //col.rgb *= col.a;
-                return color;
+                float2 uv1 = i.uv + float2(_Blur / 5, 0);
+                float2 uv2 = i.uv + float2(-_Blur / 5, 0);
+                float2 uv3 = i.uv + float2(0, _Blur / 5);
+                float2 uv4 = i.uv + float2(0, -_Blur / 5);
+                float4 col = tex2D(_MainTex, i.uv) * i.color * 0.1;
+                col += tex2D(_MainTex, uv1) * i.color * 0.3;
+                col += tex2D(_MainTex, uv2) * i.color * 0.3;
+                col += tex2D(_MainTex, uv3) * i.color * 0.3;
+                col += tex2D(_MainTex, uv4) * i.color * 0.3;
+
+                col.rgb *= col.a;
+                return col;
             }
             ENDCG
         }

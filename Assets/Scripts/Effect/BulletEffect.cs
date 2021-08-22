@@ -11,6 +11,7 @@ public class BulletEffect : IEffect, IGrid, IUpdatable, IMovatable, IFlyer
     public float SpeedDecayTime { get; set; }
     public float Speed { get; set; }
     public float RevertSpeed { get; set; }
+    public float Acceleration { get; set; }
     public int Damage { get; set; }
     public float Duration { get; set; }
     private float StartTime { get; set; }
@@ -22,9 +23,12 @@ public class BulletEffect : IEffect, IGrid, IUpdatable, IMovatable, IFlyer
     public Renderer Renderer { get; private set; }
     public float CurPosX { get; set; }
     public float CurPosY { get; set; }
+    
     public bool InRange(Bounds bounds)
     {
-        return Renderer.bounds.Intersects(bounds);
+        var selfBounds = Renderer.bounds;
+        selfBounds.extents *= 0.8f;
+        return selfBounds.Intersects(bounds);
     }
 
     public IEntity Target { get; set; }
@@ -75,7 +79,7 @@ public class BulletEffect : IEffect, IGrid, IUpdatable, IMovatable, IFlyer
         for (var i = 0; i < list.Count; ++i)
         {
             var barrier = list[i];
-            if (barrier.InRange(Renderer.bounds))
+            if (InRange(barrier.Renderer.bounds))
             {
                 IsDestroy = true;
                 return;
@@ -88,7 +92,7 @@ public class BulletEffect : IEffect, IGrid, IUpdatable, IMovatable, IFlyer
             var entity = eList[i];
             if (entity == Target && 
                 entity is IGrid grid && 
-                grid.InRange(Renderer.bounds))
+                InRange(grid.Renderer.bounds))
             {
                 AudioMgr.PlaySound(Game.BulletHitSound);
                 entity.Hp -= Damage;
@@ -111,7 +115,9 @@ public class BulletEffect : IEffect, IGrid, IUpdatable, IMovatable, IFlyer
         var pos = transform.localPosition;
         var bounds = ((IGrid)Target).Renderer.bounds;
         var dir = (bounds.center - pos).normalized;
-        pos += dir * (Speed * SpeedFactor * Time.deltaTime);
+        var t = Time.deltaTime;
+        Speed += Acceleration * t;
+        pos += dir * (Speed * t * SpeedFactor);
         transform.localPosition = pos;
     }
 

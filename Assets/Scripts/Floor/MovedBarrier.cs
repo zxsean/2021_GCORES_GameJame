@@ -65,7 +65,7 @@ public class MovedBarrier: Barrier, IUpdatable, IMovatable, ITriggerFloor
         var entities = EntityMgr.GetAllEntity();
         for (var i = 0; i < entities.Count; ++i)
         {
-            if (entities[i] is IGrid grid && grid.InRange(Renderer.bounds))
+            if (entities[i] is IGrid grid && InRange(grid.Renderer.bounds))
             {
                 //多推出一点距离保证不会被粘住
                 grid.CurPosX += offsetX + dir.x * 0.1f;

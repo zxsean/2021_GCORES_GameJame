@@ -22,6 +22,9 @@ public class Monster : Grid, IEntity, IUpdatable, IMovatable
     private Sprite Down { get; set; }
     private Sprite Left { get; set; }
     private Sprite Right { get; set; }
+    
+    private static MaterialPropertyBlock Mpb = new MaterialPropertyBlock();
+    private static int BlurID = Shader.PropertyToID("_Blur");
 
     public Monster(GameObject asset) : base(asset)
     {
@@ -39,13 +42,23 @@ public class Monster : Grid, IEntity, IUpdatable, IMovatable
         Down = data.down;
         Left = data.left;
         Right = data.right;
+        
+        Mpb.Clear();
+        Renderer.GetPropertyBlock(Mpb);
+        Mpb.SetInt(BlurID, 0);
+        Renderer.SetPropertyBlock(Mpb);
     }
     
     public void Update()
     {
         if (Hp <= 0)
         {
-            gameObject.SetActive(false);
+            // 红色
+            ((SpriteRenderer)Renderer).color = Color.red;
+            Renderer.GetPropertyBlock(Mpb);
+            Mpb.SetInt(BlurID, 1);
+            Renderer.SetPropertyBlock(Mpb);
+            //gameObject.SetActive(false);
             IsDestroy = true;
             return;
         }

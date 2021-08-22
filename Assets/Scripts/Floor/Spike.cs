@@ -22,7 +22,7 @@ public class Spike : Grid, IFloor, IUpdatable
         for (var i = 0; i < list.Count; ++i)
         {
             var entity = list[i];
-            if (entity is IGrid grid && grid.InRange(Renderer.bounds))
+            if (entity is IGrid grid && InRange(grid.Renderer.bounds))
             {
                 entity.Hp -= Damage;
             }

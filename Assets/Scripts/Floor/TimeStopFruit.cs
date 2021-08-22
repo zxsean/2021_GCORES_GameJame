@@ -33,7 +33,7 @@ public class TimeStopFruit : Grid, IFloor, IUpdatable
         for (var i = 0; i < list.Count; ++i)
         {
             var player = list[i];
-            if (player is IGrid grid && grid.InRange(Renderer.bounds))
+            if (player is IGrid grid && InRange(grid.Renderer.bounds))
             {
                 var effect = EffectMgr.CreateTargetEffect<IEffectTarget, TimeStopEffect>((IEffectTarget)player);
                 effect.DecayTime = DecayTime;

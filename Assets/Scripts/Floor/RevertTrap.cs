@@ -52,7 +52,7 @@ public class RevertTrap : Grid, IFloor, IUpdatable, ITriggerFloor
         for (var i = 0; i < list.Count; ++i)
         {
             var flyer = list[i];
-            if (flyer is IGrid grid && grid.InRange(Renderer.bounds))
+            if (flyer is IGrid grid && InRange(grid.Renderer.bounds))
             {
                 if (!inDic.ContainsKey(flyer))
                 {
