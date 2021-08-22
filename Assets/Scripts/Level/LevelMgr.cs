@@ -56,9 +56,13 @@ public static class LevelMgr
     {
         CurLevel.Clear();
         levels.Remove(CurLevel);
-        Object.Destroy(CurLevel.gameObject);
-        CurLevel = null;
-        CreateAndEnterLevel(CurLevelId, false);
+        Game.TransitionView.PlayShow(() =>
+        {
+            Object.Destroy(CurLevel.gameObject);
+            CurLevel = null;
+            CreateAndEnterLevel(CurLevelId, false);
+            Game.TransitionView.PlayHide();
+        });
     }
 
     /// <summary>

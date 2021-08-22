@@ -67,7 +67,9 @@ public class TimeStopEffect : IEffect, IUpdatable
         
         FloorMgr.GetAll<IMovatable>(out var list);
         EntityMgr.GetAll<IMovatable>(out var eList);
+        EffectMgr.GetAll<IMovatable>(out var efList);
         list.AddRange(eList);
+        list.AddRange(efList);
         for (var i = 0; i < list.Count; ++i)
         {
             var moved = list[i];

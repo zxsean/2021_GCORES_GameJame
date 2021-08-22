@@ -13,6 +13,9 @@ public class Player : Grid, IEntity, IUpdatable, IEffectTarget, IPlayer
     private Sprite Down { get; set; }
     private Sprite Left { get; set; }
     private Sprite Right { get; set; }
+    
+    private static MaterialPropertyBlock Mpb = new MaterialPropertyBlock();
+    private static int BlurID = Shader.PropertyToID("_Blur");
 
     public Player(GameObject asset) : base(asset)
     {
@@ -26,23 +29,34 @@ public class Player : Grid, IEntity, IUpdatable, IEffectTarget, IPlayer
         Down = data.down;
         Left = data.left;
         Right = data.right;
+        
+        Mpb.Clear();
+        Renderer.GetPropertyBlock(Mpb);
+        Mpb.SetInt(BlurID, 0);
+        Renderer.SetPropertyBlock(Mpb);
     }
 
     public void Update()
     {
-        // 处理输入
-        ProcessInputs();
-        
         // 处理状态
         ProcessStates();
+        
+        // 处理输入
+        ProcessInputs();
     }
 
     protected virtual void ProcessStates()
     {
         if (Hp <= 0)
         {
+            // 红色
+            ((SpriteRenderer)Renderer).color = Color.red;
+            Renderer.GetPropertyBlock(Mpb);
+            Mpb.SetInt(BlurID, 1);
+            Renderer.SetPropertyBlock(Mpb);
+            
             AudioMgr.PlaySound(Game.DieSound);
-            gameObject.SetActive(false);
+            //gameObject.SetActive(false);
             IsActive = false;
             // 玩家死亡 游戏结束
             IsDestroy = true;
@@ -52,6 +66,8 @@ public class Player : Grid, IEntity, IUpdatable, IEffectTarget, IPlayer
 
     protected virtual void ProcessInputs()
     {
+        if (!IsActive) return;
+        
         var offsetX = 0.0f;
         var offsetY = 0.0f;
 

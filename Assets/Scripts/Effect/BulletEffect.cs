@@ -11,6 +11,7 @@ public class BulletEffect : IEffect, IGrid, IUpdatable, IMovatable, IFlyer
     public float SpeedDecayTime { get; set; }
     public float Speed { get; set; }
     public float RevertSpeed { get; set; }
+    public float Acceleration { get; set; }
     public int Damage { get; set; }
     public float Duration { get; set; }
     private float StartTime { get; set; }
@@ -22,6 +23,7 @@ public class BulletEffect : IEffect, IGrid, IUpdatable, IMovatable, IFlyer
     public Renderer Renderer { get; private set; }
     public float CurPosX { get; set; }
     public float CurPosY { get; set; }
+    
     public bool InRange(Bounds bounds)
     {
         var selfBounds = Renderer.bounds;
@@ -113,7 +115,9 @@ public class BulletEffect : IEffect, IGrid, IUpdatable, IMovatable, IFlyer
         var pos = transform.localPosition;
         var bounds = ((IGrid)Target).Renderer.bounds;
         var dir = (bounds.center - pos).normalized;
-        pos += dir * (Speed * SpeedFactor * Time.deltaTime);
+        var t = Time.deltaTime;
+        Speed += Acceleration * t;
+        pos += dir * (Speed * t * SpeedFactor);
         transform.localPosition = pos;
     }
 

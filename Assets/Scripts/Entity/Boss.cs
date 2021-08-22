@@ -24,6 +24,7 @@ public class Boss : Grid, IEntity, IUpdatable
     private float Radius { get; set; }
     private float Speed { get; set; }
     private float BulletRevertSpeed { get; set; }
+    private float BulletAcceleration { get; set; }
     private int Winding { get; set; }
     private float Length { get; set; }
     private bool IsHurt { get; set; }
@@ -42,6 +43,7 @@ public class Boss : Grid, IEntity, IUpdatable
         BulletSpeed = data.bulletSpeed;
         BulletRevertSpeed = data.bulletRevertSpeed;
         BulletDuration = data.bulletDuration;
+        BulletAcceleration = data.bulletAcceleration;
         Radius = transform.localPosition.magnitude;
         Speed = data.speed;
         Winding = (int) data.winding;
@@ -104,6 +106,7 @@ public class Boss : Grid, IEntity, IUpdatable
             effect.Damage = BulletDamage;
             effect.Speed = BulletSpeed;
             effect.RevertSpeed = BulletRevertSpeed;
+            effect.Acceleration = BulletAcceleration;
             effect.Duration = BulletDuration;
             effect.Target = EntityMgr.Player;
             effect.StartPosition = Renderer.bounds.center;
