@@ -13,6 +13,7 @@ public class RevertTrap : Grid, IFloor, IUpdatable, ITriggerFloor
     private Renderer UpRenderer { get; set; }
     private float Duration { get; set; }
     private float StartTime { get; set; }
+    private Animation Anim { get; set; }
     
     private Dictionary<IFlyer, bool> inDic = new Dictionary<IFlyer, bool>();
 
@@ -29,7 +30,9 @@ public class RevertTrap : Grid, IFloor, IUpdatable, ITriggerFloor
         Up = transform.Find("Up").gameObject;
         DownRenderer = Down.GetComponent<Renderer>();
         UpRenderer = Up.GetComponent<Renderer>();
-        SwitchState();
+
+        Anim = gameObject.GetComponent<Animation>();
+        SwitchState(false);
     }
 
     public void Update()
@@ -83,10 +86,12 @@ public class RevertTrap : Grid, IFloor, IUpdatable, ITriggerFloor
     }
 
         
-    private void SwitchState()
+    private void SwitchState(bool anim = true)
     {
-        Down.SetActive(IsTrigger);
-        Up.SetActive(!IsTrigger);
+        if (anim)
+        {
+            Anim.Play(IsTrigger ? "trap_fadein" : "trap_fadeout");
+        }
         Renderer = IsTrigger ? DownRenderer : UpRenderer;
     }
 }
