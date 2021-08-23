@@ -60,6 +60,7 @@ public class Boss : Grid, IEntity, IUpdatable
         Attack = data.attack;
         Die = data.die;
 
+        Renderer = transform.Find("GameObject/Render").GetComponent<SpriteRenderer>();
         Mpb.Clear();
         Renderer.GetPropertyBlock(Mpb);
         Mpb.SetFloat(BlurID, 0);
