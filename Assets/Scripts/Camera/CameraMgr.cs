@@ -44,6 +44,11 @@ public static class CameraMgr
         MoveOffset = 0.0f;
         MoveFinished = onFinished;
     }
+
+    public static void SetSize(float size)
+    {
+        Camera.orthographicSize = size;
+    }
     
     public static void Update()
     {
