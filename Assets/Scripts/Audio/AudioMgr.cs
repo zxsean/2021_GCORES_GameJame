@@ -92,6 +92,7 @@ public static class AudioMgr
         }
 
         if (freeSource.source.isPlaying) return;
+        freeSource.bind = bind;
         freeSource.source.Play();
     }
 
@@ -122,16 +123,16 @@ public static class AudioMgr
     public static void Update()
     {
         //随距离平方衰减
-        var pos = CameraMgr.CameraTrans.localPosition;
+        var pos = CameraMgr.CameraTrans.position;
         foreach (var source in soundSources)
         {
             if (source.source.isPlaying && source.bind != null)
             {
-                var sourcePos = source.bind.localPosition;
+                var sourcePos = source.bind.position;
                 sourcePos.z = pos.z;
                 var dis2 = Vector3.Dot(sourcePos - pos, sourcePos - pos);
-                var volume = dis2 > 300 ? 0 : Mathf.Max(0.0f, 1.0f / (1.0f + 0.5f * dis2));
-                source.source.volume = volume;
+                var volume = dis2 > 300 ? 0 : Mathf.Max(0.0f, 0.5f / (0.5f + dis2));
+                source.source.volume = Mathf.Min(0.5f, volume);
             }
         }
     }
