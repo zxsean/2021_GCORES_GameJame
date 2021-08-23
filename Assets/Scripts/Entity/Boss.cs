@@ -66,6 +66,7 @@ public class Boss : Grid, IEntity, IUpdatable
         Mpb.SetFloat(BlurID, 0);
         Renderer.SetPropertyBlock(Mpb);
         
+        LastTime = Time.realtimeSinceStartup;
         CameraMgr.SetSize(9.25f);
     }
     
