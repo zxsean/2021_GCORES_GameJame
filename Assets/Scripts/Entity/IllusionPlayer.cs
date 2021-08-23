@@ -57,6 +57,8 @@ public class IllusionPlayer : IGrid, IEntity, IUpdatable, IEffectTarget, IPlayer
         {
             gameObject.SetActive(false);
             IsActive = false;
+            IsDestroy = true;
+            PoolMgr<GameObject>.Return("IllusionPlayer", gameObject);
             return;
         }
         
