@@ -53,3 +53,4 @@ crashlytics-build.properties
 # Test directory
 [Aa]ssets/[Tt]est*
 
+/build_x64
