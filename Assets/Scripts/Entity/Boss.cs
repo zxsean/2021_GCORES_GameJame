@@ -141,7 +141,7 @@ public class Boss : Grid, IEntity, IUpdatable
             effect.Target = EntityMgr.Player;
             effect.StartPosition = Renderer.bounds.center;
             LastTime = Time.realtimeSinceStartup;
-            AudioMgr.PlaySound(Game.BulletShootSound);
+            AudioMgr.PlaySound(Game.BulletShootSound, transform);
         }
     }
     

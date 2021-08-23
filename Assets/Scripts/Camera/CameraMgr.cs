@@ -3,8 +3,8 @@ using UnityEngine;
 
 public static class CameraMgr
 {
-    private static Camera Camera;
-    private static Transform CameraTrans { get; set; }
+    public static Camera Camera { get; private set; }
+    public static Transform CameraTrans { get; private set; }
     
     private static Transform FollowTarget { get; set; }
     

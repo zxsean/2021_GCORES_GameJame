@@ -90,7 +90,7 @@ public class BulletMonster : Grid, IEntity, IUpdatable
             extents.z *= dir.z;
             effect.StartPosition = bounds.center + extents;
             LastTime = Time.realtimeSinceStartup;
-            AudioMgr.PlaySound(Game.BulletShootSound);
+            AudioMgr.PlaySound(Game.BulletShootSound, transform);
         }
     }
 }

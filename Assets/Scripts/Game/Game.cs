@@ -68,6 +68,7 @@ public static class Game
         LevelMgr.Update();
         AnimationMgr.Update();
         CameraMgr.Update();
+        AudioMgr.Update();
     }
 
     public static void End()

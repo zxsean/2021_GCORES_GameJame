@@ -55,7 +55,7 @@ public class Player : Grid, IEntity, IUpdatable, IEffectTarget, IPlayer
             Mpb.SetFloat(BlurID, 0.5f);
             Renderer.SetPropertyBlock(Mpb);
             
-            AudioMgr.PlaySound(Game.DieSound);
+            AudioMgr.PlaySound(Game.DieSound, transform);
             //gameObject.SetActive(false);
             IsActive = false;
             // 玩家死亡 游戏结束
@@ -104,7 +104,7 @@ public class Player : Grid, IEntity, IUpdatable, IEffectTarget, IPlayer
         // 脚步声
         if (moved)
         {
-            AudioMgr.PlayContinueSound(Game.FootStepSound);
+            AudioMgr.PlayContinueSound(Game.FootStepSound, transform);
         }
         else
         {

@@ -6,7 +6,13 @@ public static class AudioMgr
     public static GameObject Root { get; set; }
 
     private static AudioSource musicSource;
-    private static List<AudioSource> soundSources = new List<AudioSource>();
+    private static List<Sound> soundSources = new List<Sound>();
+
+    private class Sound
+    {
+        public AudioSource source;
+        public Transform bind;
+    }
 
     public static void PlayMusic(AudioClip clip)
     {
@@ -39,12 +45,12 @@ public static class AudioMgr
         musicSource.Play();
     }
     
-    public static void PlaySound(AudioClip clip)
+    public static void PlaySound(AudioClip clip, Transform bind)
     {
-        AudioSource freeSource = null;
+        Sound freeSource = null;
         foreach (var source in soundSources)
         {
-            if (!source.isPlaying)
+            if (!source.source.isPlaying)
             {
                 freeSource = source;
                 break;
@@ -53,60 +59,80 @@ public static class AudioMgr
 
         if (freeSource == null)
         {
-            freeSource = Root.AddComponent<AudioSource>();
-            freeSource.loop = false;
-            freeSource.playOnAwake = false;
-            freeSource.volume = 0.1f;
+            freeSource = new Sound();
+            var source = Root.AddComponent<AudioSource>();
+            source.loop = false;
+            source.playOnAwake = false;
+            source.volume = 0.5f;
+            freeSource.source = source;
             soundSources.Add(freeSource);
         }
 
-        freeSource.clip = clip;
-        freeSource.Play();
+        freeSource.bind = bind;
+        freeSource.source.clip = clip;
+        freeSource.source.Play();
     }
 
-    public static void PlayContinueSound(AudioClip clip)
+    public static void PlayContinueSound(AudioClip clip, Transform bind)
     {
-        AudioSource contSource = null;
+        Sound freeSource = null;
         foreach (var source in soundSources)
         {
-            if (source.clip == clip)
+            if (source.source.clip == clip)
             {
-                contSource = source;
+                freeSource = source;
                 break;
             }
         }
 
-        if (contSource == null)
+        if (freeSource == null)
         {
-            PlaySound(clip);
+            PlaySound(clip, bind);
             return;
         }
 
-        if (contSource.isPlaying) return;
-        contSource.Play();
+        if (freeSource.source.isPlaying) return;
+        freeSource.source.Play();
     }
 
     public static void StopSound(AudioClip clip)
     {
-        AudioSource stopSource = null;
+        Sound stopSource = new Sound();
         foreach (var source in soundSources)
         {
-            if (source.clip == clip)
+            if (source.source.clip == clip)
             {
                 stopSource = source;
                 break;
             }
         }
 
-        if (stopSource == null) return;
-        stopSource.Stop();
+        if (stopSource.source == null) return;
+        stopSource.source.Stop();
     }
 
     public static void StopAllSound()
     {
         foreach (var source in soundSources)
         {
-            source.Stop();
+            source.source.Stop();
+        }
+    }
+
+    public static void Update()
+    {
+        //随距离平方衰减
+        var pos = CameraMgr.CameraTrans.localPosition;
+        foreach (var source in soundSources)
+        {
+            if (source.source.isPlaying && source.bind != null)
+            {
+                var sourcePos = source.bind.localPosition;
+                sourcePos.z = pos.z;
+                var dis2 = Vector3.Dot(sourcePos - pos, sourcePos - pos);
+                var volume = dis2 > 300 ? 0 : Mathf.Max(0.0f, 1.0f / (1.0f + 0.5f * dis2));
+                source.source.volume = volume;
+            }
         }
     }
 }

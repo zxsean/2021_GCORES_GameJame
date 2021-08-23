@@ -79,7 +79,7 @@ public class DirectionBulletEffect : IEffect, IGrid, IUpdatable, IMovatable, IFl
             if (entity is IGrid grid && 
                 InRange(grid.Renderer.bounds))
             {
-                AudioMgr.PlaySound(Game.BulletHitSound);
+                AudioMgr.PlaySound(Game.BulletHitSound, transform);
                 entity.Hp -= Damage;
                 IsDestroy = true;
                 return;
