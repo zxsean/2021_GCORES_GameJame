@@ -3,10 +3,9 @@ using UnityEngine.UI;
 
 public class BossView : MonoBehaviour
 {
+    private static readonly int ProgressID = Shader.PropertyToID("_Progress");
     public RawImage image;
     private Material mat;
-
-    private static int ProgressID = Shader.PropertyToID("_Progress");
 
     private void Awake()
     {

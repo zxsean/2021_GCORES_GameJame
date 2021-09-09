@@ -2,10 +2,6 @@
 
 public class IllusionGen : Grid, ITriggerFloor
 {
-    public FloorType Type { get; }
-    public int TriggerId { get; private set; }
-    public float Duration { get; private set; }
-
     public IllusionGen(GameObject asset) : base(asset)
     {
         var data = (IllusionGenData) RawData;
@@ -14,13 +10,14 @@ public class IllusionGen : Grid, ITriggerFloor
         Duration = data.duration;
     }
 
+    public float Duration { get; }
+    public FloorType Type { get; }
+    public int TriggerId { get; }
+
     public bool Trigger(ITriggerGrid trigger)
     {
-        if (!(trigger is Player))
-        {
-            return false;
-        }
-        
+        if (!(trigger is Player)) return false;
+
         var entity = EntityMgr.GetOrCreateEntity<IllusionPlayer>();
         entity.Hp = EntityMgr.Player.Hp;
         entity.Speed = EntityMgr.Player.Speed;

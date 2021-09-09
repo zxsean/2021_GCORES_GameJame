@@ -2,59 +2,59 @@ using UnityEngine;
 
 public class Monster : Grid, IEntity, IUpdatable, IMovatable
 {
-    public int Hp { get; set; }
-    public bool IsDestroy { get; private set; }
-    public float SpeedFactor { get; set; }
-    public float SpeedDecayStartTime { get; set; }
-    public float SpeedDecayTime { get; set; }
-    public float Speed { get; private set; }
-    public int Damage { get; private set; }
-    public float ChaseRadius { get; private set; }
-    
-    public float ChaseRadius2 { get; private set; }
-    
-    public Vector2[] Path { get; private set; }
-    private int CurPathIdx { get; set; }
+    private static readonly MaterialPropertyBlock Mpb = new MaterialPropertyBlock();
+    private static readonly int BlurID = Shader.PropertyToID("_Blur");
 
     private Matrix4x4 rotateMat;
-    
-    private Sprite Up { get; set; }
-    private Sprite Down { get; set; }
-    private Sprite Left { get; set; }
-    private Sprite Right { get; set; }
-    
-    private static MaterialPropertyBlock Mpb = new MaterialPropertyBlock();
-    private static int BlurID = Shader.PropertyToID("_Blur");
 
     public Monster(GameObject asset) : base(asset)
     {
-        var data = (MonsterData)RawData;
+        var data = (MonsterData) RawData;
         Hp = data.hp;
         Speed = data.speed;
         Damage = data.damage;
-        
+
         rotateMat = Matrix4x4.Rotate(Quaternion.Euler(0, 0, 90.0f));
         ChaseRadius = data.chaseRadius;
         ChaseRadius2 = ChaseRadius * ChaseRadius;
         Path = data.path;
-        
+
         Up = data.up;
         Down = data.down;
         Left = data.left;
         Right = data.right;
-        
+
         Mpb.Clear();
         Renderer.GetPropertyBlock(Mpb);
         Mpb.SetFloat(BlurID, 0);
         Renderer.SetPropertyBlock(Mpb);
     }
-    
+
+    public float Speed { get; }
+    public int Damage { get; }
+    public float ChaseRadius { get; }
+
+    public float ChaseRadius2 { get; }
+
+    public Vector2[] Path { get; }
+    private int CurPathIdx { get; set; }
+
+    private Sprite Up { get; }
+    private Sprite Down { get; }
+    private Sprite Left { get; }
+    private Sprite Right { get; }
+    public int Hp { get; set; }
+    public float SpeedFactor { get; set; }
+    public float SpeedDecayStartTime { get; set; }
+    public float SpeedDecayTime { get; set; }
+    public bool IsDestroy { get; private set; }
+
     public void Update()
     {
         if (Hp <= 0)
         {
             // 红色
-            ((SpriteRenderer)Renderer).color = Color.red;
+            ((SpriteRenderer) Renderer).color = Color.red;
             Renderer.GetPropertyBlock(Mpb);
             Mpb.SetFloat(BlurID, 0.5f);
             Renderer.SetPropertyBlock(Mpb);
@@ -62,16 +62,12 @@ public class Monster : Grid, IEntity, IUpdatable, IMovatable
             IsDestroy = true;
             return;
         }
-        
+
         // calc decay
         if (Time.realtimeSinceStartup - SpeedDecayStartTime >= SpeedDecayTime)
-        {
             SpeedFactor = 1;
-        }
         else
-        {
             SpeedFactor = 0;
-        }
 
         // chase player
         // 碰到illusion也会杀死illusion
@@ -107,6 +103,7 @@ public class Monster : Grid, IEntity, IUpdatable, IMovatable
                                 dir *= -1;
                                 break;
                             }
+
                             ++count;
                             // 修正下方向
                             dir = rotateMat.MultiplyVector(dir);
@@ -114,14 +111,11 @@ public class Monster : Grid, IEntity, IUpdatable, IMovatable
                             targetBounds.center += dir * (offset * SpeedFactor * 5f);
                         }
                     }
-                
+
                     pos += dir * (offset * SpeedFactor);
                     transform.localPosition = pos;
                     ChangeSprite(dir);
-                    if (InRange(p.Renderer.bounds))
-                    {
-                        ((IEntity)p).Hp -= Damage;
-                    }
+                    if (InRange(p.Renderer.bounds)) ((IEntity) p).Hp -= Damage;
                     break;
                 }
             }
@@ -137,15 +131,11 @@ public class Monster : Grid, IEntity, IUpdatable, IMovatable
             var offsetY = dir.y * Speed * 0.4f * SpeedFactor * Time.deltaTime;
             pos.x += offsetX;
             pos.y += offsetY;
-            if (dir.x * (pos.x - nextPos.x) > 0.0f || 
+            if (dir.x * (pos.x - nextPos.x) > 0.0f ||
                 dir.y * (pos.y - nextPos.y) > 0.0f)
-            {
                 if (++CurPathIdx >= Path.Length - 1)
-                {
                     CurPathIdx = 0;
-                }
-            }
-            
+
             transform.localPosition = pos;
             ChangeSprite(dir);
         }
@@ -157,20 +147,11 @@ public class Monster : Grid, IEntity, IUpdatable, IMovatable
         var sr = Renderer as SpriteRenderer;
         const float cos45 = 0.707f;
         if (Vector3.Dot(dir, Vector3.up) > cos45)
-        {
             sr.sprite = Up;
-        }
         else if (Vector3.Dot(dir, Vector3.down) > cos45)
-        {
             sr.sprite = Down;
-        }
         else if (Vector3.Dot(dir, Vector3.left) > cos45)
-        {
             sr.sprite = Left;
-        }
-        else if (Vector3.Dot(dir, Vector3.right) > cos45)
-        {
-            sr.sprite = Right;
-        }
+        else if (Vector3.Dot(dir, Vector3.right) > cos45) sr.sprite = Right;
     }
 }

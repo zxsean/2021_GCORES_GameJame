@@ -1,8 +1,5 @@
-﻿using UnityEngine;
-
-public interface IEffectTarget
+﻿public interface IEffectTarget
 {
-    
 }
 
 public interface IEffect

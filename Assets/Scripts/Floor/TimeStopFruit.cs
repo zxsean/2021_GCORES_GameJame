@@ -1,17 +1,7 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class TimeStopFruit : Grid, IFloor, IUpdatable
 {
-    public FloorType Type { get; private set; }
-    public bool IsDestroy { get; private set; }
-    
-    private float Radius { get; set; }
-    private float Duration { get; set; }
-    private float DecayTime { get; set; }
-    private float CDTime { get; set; }
-    private float startCDTime { get; set; }
-    
     public TimeStopFruit(GameObject asset) : base(asset)
     {
         Type = ((FloorData) RawData).type;
@@ -22,20 +12,28 @@ public class TimeStopFruit : Grid, IFloor, IUpdatable
         DecayTime = data.decayTime;
         CDTime = data.cdTime;
     }
-    
+
+    private float Radius { get; }
+    private float Duration { get; }
+    private float DecayTime { get; }
+    private float CDTime { get; }
+    private float startCDTime { get; set; }
+    public FloorType Type { get; }
+    public bool IsDestroy { get; private set; }
+
     public void Update()
     {
         // 如果Player踩到了，并且cd到了，那么就产生时停特效
         if (Time.realtimeSinceStartup - startCDTime < CDTime) return;
         SwitchState(false);
-        
+
         EntityMgr.GetAll<IPlayer>(out var list);
         for (var i = 0; i < list.Count; ++i)
         {
             var player = list[i];
             if (player is IGrid grid && InRange(grid.Renderer.bounds))
             {
-                var effect = EffectMgr.CreateTargetEffect<IEffectTarget, TimeStopEffect>((IEffectTarget)player);
+                var effect = EffectMgr.CreateTargetEffect<IEffectTarget, TimeStopEffect>((IEffectTarget) player);
                 effect.DecayTime = DecayTime;
                 effect.Target = player;
                 effect.Duration = Duration;

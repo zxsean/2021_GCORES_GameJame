@@ -1,7 +1,7 @@
 ﻿public class TimeStopFruitData : FloorData
 {
-    public float radius;
-    public float duration;
-    public float decayTime;
     public float cdTime;
+    public float decayTime;
+    public float duration;
+    public float radius;
 }

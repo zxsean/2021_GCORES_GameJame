@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using Coffee.UIExtensions;
 using UnityEngine;
 
 public class TransitionView : MonoBehaviour
 {
     public UITransitionEffect effect;
-    
+
     private float StartTime { get; set; }
     private Action OnFinished { get; set; }
 
@@ -28,11 +26,8 @@ public class TransitionView : MonoBehaviour
     private void Update()
     {
         if (OnFinished == null) return;
-        if (Time.realtimeSinceStartup - StartTime < effect.duration)
-        {
-            return;
-        }
-        
+        if (Time.realtimeSinceStartup - StartTime < effect.duration) return;
+
         OnFinished?.Invoke();
         OnFinished = null;
         StartTime = 0.0f;

@@ -3,16 +3,12 @@ using UnityEngine;
 
 public static class EntityMgr
 {
+    private static readonly List<IEntity> entities = new List<IEntity>();
     public static Player Player { get; set; }
-    
-    private static List<IEntity> entities = new List<IEntity>();
-    
+
     public static void CreateEntities(Transform assets)
     {
-        for (var i = 0; i < assets.childCount; ++i)
-        {
-            CreateEntity(assets.GetChild(i));
-        }
+        for (var i = 0; i < assets.childCount; ++i) CreateEntity(assets.GetChild(i));
     }
 
     public static void CreateEntity(Transform asset)
@@ -36,18 +32,15 @@ public static class EntityMgr
         {
             entity = new Boss(asset.gameObject);
         }
+
         entities.Add(entity);
     }
 
     public static T GetOrCreateEntity<T>() where T : IEntity, new()
     {
         for (var i = 0; i < entities.Count; ++i)
-        {
             if (entities[i] is T)
-            {
-                return (T)entities[i];
-            }
-        }
+                return (T) entities[i];
 
         var entity = new T();
         entities.Add(entity);
@@ -56,7 +49,6 @@ public static class EntityMgr
 
     public static void DestroyEntity()
     {
-        
     }
 
     public static void CreateMonsters(MonsterData[] monsterData)
@@ -66,21 +58,16 @@ public static class EntityMgr
 
     public static void CreateMonster(MonsterData monsterData)
     {
-        
     }
 
     public static void GetAll<T>(out List<T> list)
     {
         list = new List<T>();
         for (var i = 0; i < entities.Count; ++i)
-        {
             if (entities[i] is T)
-            {
-                list.Add((T)entities[i]);
-            }
-        }
+                list.Add((T) entities[i]);
     }
-    
+
     public static List<IEntity> GetAllEntity()
     {
         return entities;
@@ -91,20 +78,13 @@ public static class EntityMgr
         for (var i = 0; i < entities.Count; ++i)
         {
             var entity = entities[i];
-            if (entity is IUpdatable updatable)
-            {
-                updatable.Update();
-            }
+            if (entity is IUpdatable updatable) updatable.Update();
         }
-        
+
         // 清理掉被标记为删除的Entity
         for (var i = entities.Count - 1; i >= 0; --i)
-        {
             if (entities[i] is IUpdatable updatable && updatable.IsDestroy)
-            {
                 entities.RemoveAt(i);
-            }
-        }
     }
 
     public static void Clear()

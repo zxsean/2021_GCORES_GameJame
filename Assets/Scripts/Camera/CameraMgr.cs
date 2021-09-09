@@ -5,14 +5,14 @@ public static class CameraMgr
 {
     public static Camera Camera { get; private set; }
     public static Transform CameraTrans { get; private set; }
-    
+
     private static Transform FollowTarget { get; set; }
-    
+
     private static Vector3 MoveInitPos { get; set; }
     private static float MoveOffset { get; set; }
     private static Vector3 MoveTarget { get; set; }
     private static Action MoveFinished { get; set; }
-    
+
     // private static float Radius { get; set; }
     // private static float MoveSpeed { get; set; }
     // private static float OffsetX { get; set; }
@@ -49,7 +49,7 @@ public static class CameraMgr
     {
         Camera.orthographicSize = size;
     }
-    
+
     public static void Update()
     {
         // 移动目标
@@ -68,14 +68,12 @@ public static class CameraMgr
                 MoveInitPos = default;
                 MoveFinished?.Invoke();
             }
+
             return;
         }
-        
+
         // 跟随目标
-        if (FollowTarget == null)
-        {
-            return;
-        }
+        if (FollowTarget == null) return;
 
         var pos = FollowTarget.localPosition;
         var camPos = CameraTrans.localPosition;
@@ -97,6 +95,5 @@ public static class CameraMgr
 
     public static void Clear()
     {
-        
     }
 }

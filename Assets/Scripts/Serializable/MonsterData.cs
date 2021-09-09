@@ -2,13 +2,13 @@
 
 public class MonsterData : GridData
 {
-    public float speed;
-    public int hp;
-    public int damage;
     public float chaseRadius;
-    public Vector2[] path;
-    public Sprite up;
+    public int damage;
     public Sprite down;
+    public int hp;
     public Sprite left;
+    public Vector2[] path;
     public Sprite right;
+    public float speed;
+    public Sprite up;
 }

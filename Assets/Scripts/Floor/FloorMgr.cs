@@ -1,23 +1,19 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Floor管理器
+///     Floor管理器
 /// </summary>
 public static class FloorMgr
 {
-    private static List<IFloor> floors = new List<IFloor>();
-    private static Dictionary<int, ITriggerFloor> triggerFloors = new Dictionary<int, ITriggerFloor>();
+    private static readonly List<IFloor> floors = new List<IFloor>();
+    private static readonly Dictionary<int, ITriggerFloor> triggerFloors = new Dictionary<int, ITriggerFloor>();
 
     public static void CreateFloors(Transform assets)
     {
-        for (var i = 0; i < assets.childCount; ++i)
-        {
-            CreateFloor(assets.GetChild(i));
-        }
+        for (var i = 0; i < assets.childCount; ++i) CreateFloor(assets.GetChild(i));
     }
-    
+
     public static void CreateFloor(Transform asset)
     {
         var data = asset.GetComponent<FloorData>();
@@ -49,38 +45,30 @@ public static class FloorMgr
                 floor = new SpikeTrap(asset.gameObject);
                 break;
             case FloorType.RevertTrap:
-                floor = new RevertTrap(asset.gameObject); 
+                floor = new RevertTrap(asset.gameObject);
                 break;
             case FloorType.Exit:
                 floor = new Exit(asset.gameObject);
                 break;
         }
+
         floors.Add(floor);
         if (floor is ITriggerFloor triggerFloor && triggerFloor.TriggerId > 0)
-        {
             triggerFloors.Add(triggerFloor.TriggerId, triggerFloor);
-        }
     }
-    
+
     public static void Update()
     {
         for (var i = 0; i < floors.Count; ++i)
         {
             var floor = floors[i];
-            if (floor is IUpdatable updatable)
-            {
-                updatable.Update();
-            }
+            if (floor is IUpdatable updatable) updatable.Update();
         }
-        
+
         // 清理掉被标记为删除的Floor
         for (var i = floors.Count - 1; i >= 0; --i)
-        {
             if (floors[i] is IUpdatable updatable && updatable.IsDestroy)
-            {
                 floors.RemoveAt(i);
-            }
-        }
     }
 
     public static void Clear()
@@ -93,12 +81,8 @@ public static class FloorMgr
     {
         list = new List<T>();
         for (var i = 0; i < floors.Count; ++i)
-        {
             if (floors[i] is T)
-            {
-                list.Add((T)floors[i]);
-            }
-        }
+                list.Add((T) floors[i]);
     }
 
     public static ITriggerFloor GetTrigger(int triggerId)

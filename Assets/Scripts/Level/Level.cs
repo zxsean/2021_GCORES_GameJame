@@ -1,23 +1,10 @@
 ﻿using UnityEngine;
 
 /// <summary>
-/// 关卡
+///     关卡
 /// </summary>
 public class Level
 {
-    public int Rows { get; private set; }
-    public int Cols { get; private set; }
-    public GameObject gameObject { get; private set; }
-    public Transform transform { get; private set; }
-    public Transform FloorRoot { get; private set; }
-    public Transform EntityRoot { get; private set; }
-    public Transform EffectRoot { get; private set; }
-
-    private Bounds Bounds { get; set; }
-    
-    private Animation Anim { get; set; }
-    private bool IsPause { get; set; }
-
     public Level(GameObject asset)
     {
         var data = asset.GetComponent<LevelData>();
@@ -30,9 +17,22 @@ public class Level
         EntityRoot = transform.Find("Entity");
         EffectRoot = transform.Find("Effect");
         Anim = transform.GetComponent<Animation>();
-        
+
         Bounds = new Bounds(Vector3.zero, new Vector3(data.width, data.height, 1.0f));
     }
+
+    public int Rows { get; }
+    public int Cols { get; }
+    public GameObject gameObject { get; }
+    public Transform transform { get; }
+    public Transform FloorRoot { get; }
+    public Transform EntityRoot { get; }
+    public Transform EffectRoot { get; }
+
+    private Bounds Bounds { get; }
+
+    private Animation Anim { get; }
+    private bool IsPause { get; set; }
 
     public void Enter(bool anim = true)
     {
@@ -40,17 +40,14 @@ public class Level
         FloorMgr.CreateFloors(FloorRoot);
         // init entity
         EntityMgr.CreateEntities(EntityRoot);
-        
+
         gameObject.SetActive(true);
-        if (anim)
-        {
-            Anim.Play("level_enter");
-        }
-        
+        if (anim) Anim.Play("level_enter");
+
         CameraMgr.Follow(EntityMgr.Player.transform);
     }
-    
-    
+
+
     public void Update()
     {
         if (IsPause) return;
@@ -75,16 +72,9 @@ public class Level
         AudioMgr.StopAllSound();
         Clear();
         if (anim)
-        {
-            Anim.Play("level_exit", () =>
-            {
-                gameObject.SetActive(false);
-            });
-        }
+            Anim.Play("level_exit", () => { gameObject.SetActive(false); });
         else
-        {
             gameObject.SetActive(false);
-        }
     }
 
     public void Clear()

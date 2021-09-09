@@ -1,20 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class Trigger : Grid, IFloor, IUpdatable
 {
-    public FloorType Type { get; }
-    public bool IsDestroy { get; }
-    
-    public int TargetId { get; private set; }
-    
-    private GameObject Down { get; set; }
-    private Renderer DownRenderer { get; set; }
-    private GameObject Up { get; set; }
-    private Renderer UpRenderer { get; set; }
-
-    private Dictionary<ITriggerGrid, bool> inDic = new Dictionary<ITriggerGrid, bool>();
+    private readonly Dictionary<ITriggerGrid, bool> inDic = new Dictionary<ITriggerGrid, bool>();
 
     public Trigger(GameObject asset) : base(asset)
     {
@@ -27,7 +16,16 @@ public class Trigger : Grid, IFloor, IUpdatable
         UpRenderer = Up.GetComponent<Renderer>();
         SwitchState();
     }
-    
+
+    public int TargetId { get; }
+
+    private GameObject Down { get; }
+    private Renderer DownRenderer { get; }
+    private GameObject Up { get; }
+    private Renderer UpRenderer { get; }
+    public FloorType Type { get; }
+    public bool IsDestroy { get; }
+
     public void Update()
     {
         // 如果IPlayer踩到了，那么就触发
@@ -40,10 +38,7 @@ public class Trigger : Grid, IFloor, IUpdatable
                 if (!inDic.ContainsKey(trigger))
                 {
                     var target = FloorMgr.GetTrigger(TargetId);
-                    if (target.Trigger(trigger))
-                    {
-                        inDic.Add(trigger, true);
-                    }
+                    if (target.Trigger(trigger)) inDic.Add(trigger, true);
                 }
             }
             else
@@ -51,7 +46,7 @@ public class Trigger : Grid, IFloor, IUpdatable
                 inDic.Remove(trigger);
             }
         }
-        
+
         SwitchState();
     }
 

@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Launcher : MonoBehaviour
 {
@@ -44,5 +43,4 @@ public class Launcher : MonoBehaviour
     }
 
     #endregion
-
 }

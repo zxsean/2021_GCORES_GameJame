@@ -2,17 +2,16 @@
 using UnityEngine;
 
 /// <summary>
-/// 关卡管理器
+///     关卡管理器
 /// </summary>
 public static class LevelMgr
 {
+    private static readonly List<Level> levels = new List<Level>();
+
+    private static readonly List<GameObject> levelAssets = new List<GameObject>();
     public static Level CurLevel { get; private set; }
 
     private static int CurLevelId { get; set; }
-    
-    private static List<Level> levels = new List<Level>();
-
-    private static List<GameObject> levelAssets = new List<GameObject>();
 
     public static void LoadLevels(GameObject[] assets)
     {
@@ -20,7 +19,7 @@ public static class LevelMgr
     }
 
     /// <summary>
-    /// 根据关卡数据创建关卡
+    ///     根据关卡数据创建关卡
     /// </summary>
     /// <param name="data"></param>
     public static void CreateAndEnterLevel(int levelId, bool anim = true)
@@ -30,7 +29,7 @@ public static class LevelMgr
             CurLevel?.Exit(anim);
             AudioMgr.PlayContinueMusic(Game.NormalMusic);
         }
-        else if(levelId < levelAssets.Count)
+        else if (levelId < levelAssets.Count)
         {
             CurLevel?.Exit(anim);
             AudioMgr.PlayContinueMusic(Game.BossMusic);
@@ -42,7 +41,7 @@ public static class LevelMgr
             Game.End();
             return;
         }
-        
+
         var asset = levelAssets[levelId];
         var ins = Object.Instantiate(asset, Vector3.zero, Quaternion.identity, Game.Root);
         var level = new Level(ins);
@@ -66,7 +65,7 @@ public static class LevelMgr
     }
 
     /// <summary>
-    /// 下一关
+    ///     下一关
     /// </summary>
     public static void NextLevel()
     {
@@ -92,6 +91,7 @@ public static class LevelMgr
             var level = levels[i];
             Object.Destroy(level.gameObject);
         }
+
         levels.Clear();
         CurLevel = null;
         CurLevelId = 0;

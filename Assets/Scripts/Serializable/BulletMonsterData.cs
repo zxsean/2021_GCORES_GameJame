@@ -10,13 +10,13 @@ public enum ShootDirection
 
 public class BulletMonsterData : GridData
 {
+    public int bulletDamage;
+    public float bulletSpeed;
+    public ShootDirection direction;
+    public Sprite down;
     public int hp;
     public int interval;
-    public float bulletSpeed;
-    public int bulletDamage;
-    public ShootDirection direction;
-    public Sprite up;
-    public Sprite down;
     public Sprite left;
     public Sprite right;
+    public Sprite up;
 }

@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class ColorLight : MonoBehaviour
 {
     private MeshFilter meshFilter;
-    
+
     private void Awake()
     {
         meshFilter = GetComponent<MeshFilter>();
@@ -34,7 +33,7 @@ public class ColorLight : MonoBehaviour
             var downVec = Bezier(a, -b, c, t);
             vertices[i * 2 - 1] = upVec;
             vertices[i * 2] = downVec;
-            normals[i * 2 - 1] = Vector3.up;//Bezier(Vector3.left, Vector3.up, Vector3.right, t).normalized;
+            normals[i * 2 - 1] = Vector3.up; //Bezier(Vector3.left, Vector3.up, Vector3.right, t).normalized;
             normals[i * 2] = Vector3.down; //Bezier(Vector3.left, Vector3.down, Vector3.right, t).normalized;
         }
 
@@ -51,7 +50,7 @@ public class ColorLight : MonoBehaviour
         mesh.normals = normals;
         return mesh;
     }
-    
+
     private Vector3 Bezier(Vector3 a, Vector3 b, Vector3 c, float t)
     {
         var d = Vector3.Lerp(a, b, t);

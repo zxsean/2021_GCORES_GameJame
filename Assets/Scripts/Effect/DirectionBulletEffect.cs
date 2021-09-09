@@ -1,40 +1,32 @@
 ﻿using UnityEngine;
 
 /// <summary>
-/// 固定方向的子弹
+///     固定方向的子弹
 /// </summary>
 public class DirectionBulletEffect : IEffect, IGrid, IUpdatable, IMovatable, IFlyer
 {
-    public int Row { get; }
-    public int Col { get; }
-    public GameObject gameObject { get; private set; }
-    public Transform transform { get; private set; }
-    public Renderer Renderer { get; private set; }
-    public float CurPosX { get; set; }
-    public float CurPosY { get; set; }
-    public float SpeedFactor { get; set; }
-    public float SpeedDecayStartTime { get; set; }
-    public float SpeedDecayTime { get; set; }
+    public DirectionBulletEffect()
+    {
+        Reset();
+    }
+
     public float Speed { get; set; }
     public int Damage { get; set; }
-    public bool IsDestroy { get; private set; }
     public Vector3 Direction { get; set; }
+
     public Vector3 StartPosition
     {
         set => transform.localPosition = value;
     }
 
-    public DirectionBulletEffect()
-    {
-        Reset();
-    }
-    
     public void Reset()
     {
         gameObject = PoolMgr<GameObject>.Get("BulletEffect", () =>
         {
             var prefab = Resources.Load("Prefabs/Effects/BulletEffect");
-            var ins = Object.Instantiate(prefab, Vector3.zero, Quaternion.identity, LevelMgr.CurLevel.EffectRoot) as GameObject;
+            var ins =
+                Object.Instantiate(prefab, Vector3.zero, Quaternion.identity, LevelMgr.CurLevel.EffectRoot) as
+                    GameObject;
             ins.SetActive(true);
             return ins;
         });
@@ -48,16 +40,34 @@ public class DirectionBulletEffect : IEffect, IGrid, IUpdatable, IMovatable, IFl
     {
         gameObject.SetActive(false);
         PoolMgr<GameObject>.Return("BulletEffect", gameObject);
-
     }
-    
+
+
+    public void RevertTarget()
+    {
+        Direction *= -1;
+    }
+
+    public int Row { get; }
+    public int Col { get; }
+    public GameObject gameObject { get; private set; }
+    public Transform transform { get; private set; }
+    public Renderer Renderer { get; private set; }
+    public float CurPosX { get; set; }
+    public float CurPosY { get; set; }
+
     public bool InRange(Bounds bounds)
     {
         var selfBounds = Renderer.bounds;
         selfBounds.extents *= 0.8f;
         return selfBounds.Intersects(bounds);
     }
-    
+
+    public float SpeedFactor { get; set; }
+    public float SpeedDecayStartTime { get; set; }
+    public float SpeedDecayTime { get; set; }
+    public bool IsDestroy { get; private set; }
+
     public void Update()
     {
         // 碰到障碍物，销毁
@@ -76,7 +86,7 @@ public class DirectionBulletEffect : IEffect, IGrid, IUpdatable, IMovatable, IFl
         for (var i = 0; i < eList.Count; ++i)
         {
             var entity = eList[i];
-            if (entity is IGrid grid && 
+            if (entity is IGrid grid &&
                 InRange(grid.Renderer.bounds))
             {
                 AudioMgr.PlaySound(Game.BulletHitSound, transform);
@@ -85,17 +95,13 @@ public class DirectionBulletEffect : IEffect, IGrid, IUpdatable, IMovatable, IFl
                 return;
             }
         }
-        
+
         // calc decay
         if (Time.realtimeSinceStartup - SpeedDecayStartTime >= SpeedDecayTime)
-        {
             SpeedFactor = 1;
-        }
         else
-        {
             SpeedFactor = 0;
-        }
-        
+
         //朝固定方向发射
         var pos = transform.localPosition;
         pos += Direction * (Speed * SpeedFactor * Time.deltaTime);
@@ -105,11 +111,5 @@ public class DirectionBulletEffect : IEffect, IGrid, IUpdatable, IMovatable, IFl
         theta = Direction.y >= 0 ? theta : -theta;
         theta *= Mathf.Rad2Deg;
         transform.localRotation = Quaternion.Euler(0, 0, theta);
-    }
-
-
-    public void RevertTarget()
-    {
-        Direction *= -1;
     }
 }

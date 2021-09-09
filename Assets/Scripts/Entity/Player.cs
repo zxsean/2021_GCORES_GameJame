@@ -1,21 +1,9 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Player : Grid, IEntity, IUpdatable, IEffectTarget, IPlayer
 {
-    public int Hp { get; set; }
-    public bool IsDestroy { get; private set; }
-    public bool IsActive { get; private set; }
-    public float Speed { get; private set; }
-    private float CurSpeed { get; set; }
-    
-    private Sprite Up { get; set; }
-    private Sprite Down { get; set; }
-    private Sprite Left { get; set; }
-    private Sprite Right { get; set; }
-    
-    private static MaterialPropertyBlock Mpb = new MaterialPropertyBlock();
-    private static int BlurID = Shader.PropertyToID("_Blur");
+    private static readonly MaterialPropertyBlock Mpb = new MaterialPropertyBlock();
+    private static readonly int BlurID = Shader.PropertyToID("_Blur");
 
     public Player(GameObject asset) : base(asset)
     {
@@ -29,18 +17,29 @@ public class Player : Grid, IEntity, IUpdatable, IEffectTarget, IPlayer
         Down = data.down;
         Left = data.left;
         Right = data.right;
-        
+
         Mpb.Clear();
         Renderer.GetPropertyBlock(Mpb);
         Mpb.SetFloat(BlurID, 0);
         Renderer.SetPropertyBlock(Mpb);
     }
 
+    public float Speed { get; }
+    private float CurSpeed { get; }
+
+    private Sprite Up { get; }
+    private Sprite Down { get; }
+    private Sprite Left { get; }
+    private Sprite Right { get; }
+    public int Hp { get; set; }
+    public bool IsActive { get; private set; }
+    public bool IsDestroy { get; private set; }
+
     public void Update()
     {
         // 处理状态
         ProcessStates();
-        
+
         // 处理输入
         ProcessInputs();
     }
@@ -50,11 +49,11 @@ public class Player : Grid, IEntity, IUpdatable, IEffectTarget, IPlayer
         if (Hp <= 0)
         {
             // 红色
-            ((SpriteRenderer)Renderer).color = Color.red;
+            ((SpriteRenderer) Renderer).color = Color.red;
             Renderer.GetPropertyBlock(Mpb);
             Mpb.SetFloat(BlurID, 0.5f);
             Renderer.SetPropertyBlock(Mpb);
-            
+
             AudioMgr.PlaySound(Game.DieSound, transform);
             //gameObject.SetActive(false);
             IsActive = false;
@@ -67,7 +66,7 @@ public class Player : Grid, IEntity, IUpdatable, IEffectTarget, IPlayer
     protected virtual void ProcessInputs()
     {
         if (!IsActive) return;
-        
+
         var offsetX = 0.0f;
         var offsetY = 0.0f;
 
@@ -100,38 +99,32 @@ public class Player : Grid, IEntity, IUpdatable, IEffectTarget, IPlayer
             ((SpriteRenderer) Renderer).sprite = Right;
             moved = true;
         }
-        
+
         // 脚步声
         if (moved)
-        {
             AudioMgr.PlayContinueSound(Game.FootStepSound, transform);
-        }
         else
-        {
             AudioMgr.StopSound(Game.FootStepSound);
-        }
 
         var bounds = Renderer.bounds;
         bounds.center = new Vector3(bounds.center.x + offsetX, bounds.center.y + offsetY);
-        
+
         // check level contains
         if (!LevelMgr.CurLevel.Contains(bounds))
         {
             offsetX = 0;
             offsetY = 0;
         }
-        
+
         // check barrier
         FloorMgr.GetAll<Barrier>(out var list);
         for (var i = 0; i < list.Count; ++i)
-        {
             if (list[i].InRange(bounds))
             {
                 offsetX = 0;
                 offsetY = 0;
                 break;
             }
-        }
 
         CurPosX += offsetX;
         CurPosY += offsetY;

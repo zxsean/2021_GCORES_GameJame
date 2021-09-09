@@ -7,12 +7,12 @@ public static class Game
     private static GameObject StartView { get; set; }
     public static TransitionView TransitionView { get; private set; }
     public static BossView BossView { get; set; }
-    
+
     public static AudioClip FootStepSound { get; set; }
     public static AudioClip DieSound { get; set; }
     public static AudioClip BulletShootSound { get; set; }
     public static AudioClip BulletHitSound { get; set; }
-    
+
     public static AudioClip NormalMusic { get; set; }
     public static AudioClip BossMusic { get; set; }
     public static AudioClip EndMusic { get; set; }
@@ -21,13 +21,13 @@ public static class Game
     {
         CameraMgr.Init();
         Root = GameObject.Find("Game").transform;
-        
+
         var startView = Resources.Load<GameObject>("Prefabs/UI/StartView");
         var endView = Resources.Load<GameObject>("Prefabs/UI/EndView");
         var transitionView = Resources.Load<GameObject>("Prefabs/UI/TransitionView");
         var bossView = Resources.Load<GameObject>("Prefabs/UI/BossView");
         var canvas = GameObject.Find("Canvas").transform;
-        
+
         bossView = Object.Instantiate(bossView, Vector3.zero, Quaternion.identity);
         bossView.transform.SetParent(canvas, false);
         BossView = bossView.GetComponent<BossView>();

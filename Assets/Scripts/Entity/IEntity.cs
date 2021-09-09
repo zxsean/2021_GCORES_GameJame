@@ -1,9 +1,6 @@
-﻿using UnityEngine;
-
-/// <summary>
-/// Entity接口
+﻿/// <summary>
+///     Entity接口
 /// </summary>
-
 public interface IPlayer : ITriggerGrid
 {
     bool IsActive { get; }
@@ -11,7 +8,6 @@ public interface IPlayer : ITriggerGrid
 
 public interface IMonster
 {
-    
 }
 
 public interface IEntity

@@ -2,47 +2,15 @@ using UnityEngine;
 
 public class Boss : Grid, IEntity, IUpdatable
 {
+    private static readonly MaterialPropertyBlock Mpb = new MaterialPropertyBlock();
+    private static readonly int BlurID = Shader.PropertyToID("_Blur");
     private int hp;
-
-    public int Hp
-    {
-        get => hp;
-        set
-        {
-            hp = value;
-            IsHurt = true;
-            var progress = (float)hp / ((BossData) RawData).hp;
-            Game.BossView.SetProgress(progress);
-        }
-    }
-    public bool IsDestroy { get; private set; }
-    
-    private int Interval { get; set; }
-    
-    private float LastTime { get; set; }
-    private float BulletSpeed { get; set; }
-    private int BulletDamage { get; set; }
-    private float BulletDuration { get; set; }
-    private float Radius { get; set; }
-    private float Speed { get; set; }
-    private float BulletRevertSpeed { get; set; }
-    private float BulletAcceleration { get; set; }
-    private int Winding { get; set; }
-    private float Length { get; set; }
-    private bool IsHurt { get; set; }
-    
-    private Sprite Idle { get; set; }
-    private Sprite Attack { get; set; }
-    private Sprite Die { get; set; }
-
-    private static MaterialPropertyBlock Mpb = new MaterialPropertyBlock();
-    private static int BlurID = Shader.PropertyToID("_Blur");
 
 
     public Boss(GameObject asset) : base(asset)
     {
         Game.BossView.gameObject.SetActive(true);
-        
+
         var data = (BossData) RawData;
         Hp = data.hp;
         Interval = data.interval;
@@ -55,7 +23,7 @@ public class Boss : Grid, IEntity, IUpdatable
         Speed = data.speed;
         Winding = (int) data.winding;
         Length = 2 * Mathf.PI * Radius;
-        
+
         Idle = data.idle;
         Attack = data.attack;
         Die = data.die;
@@ -65,11 +33,43 @@ public class Boss : Grid, IEntity, IUpdatable
         Renderer.GetPropertyBlock(Mpb);
         Mpb.SetFloat(BlurID, 0);
         Renderer.SetPropertyBlock(Mpb);
-        
+
         LastTime = Time.realtimeSinceStartup;
         CameraMgr.SetSize(9.25f);
     }
-    
+
+    private int Interval { get; }
+
+    private float LastTime { get; set; }
+    private float BulletSpeed { get; }
+    private int BulletDamage { get; }
+    private float BulletDuration { get; }
+    private float Radius { get; }
+    private float Speed { get; }
+    private float BulletRevertSpeed { get; }
+    private float BulletAcceleration { get; }
+    private int Winding { get; }
+    private float Length { get; }
+    private bool IsHurt { get; set; }
+
+    private Sprite Idle { get; }
+    private Sprite Attack { get; }
+    private Sprite Die { get; }
+
+    public int Hp
+    {
+        get => hp;
+        set
+        {
+            hp = value;
+            IsHurt = true;
+            var progress = (float) hp / ((BossData) RawData).hp;
+            Game.BossView.SetProgress(progress);
+        }
+    }
+
+    public bool IsDestroy { get; private set; }
+
     public void Update()
     {
         var sr = Renderer as SpriteRenderer;
@@ -85,7 +85,7 @@ public class Boss : Grid, IEntity, IUpdatable
         {
             sr.color = Color.white;
         }
-        
+
         if (Hp <= 0)
         {
             ChangeSprite(Die);
@@ -97,10 +97,7 @@ public class Boss : Grid, IEntity, IUpdatable
             IsDestroy = true;
             LevelMgr.CurLevel.Pause();
             Game.BossView.gameObject.SetActive(false);
-            CameraMgr.Move(transform.localPosition, () =>
-            {
-                LevelMgr.NextLevel();
-            });
+            CameraMgr.Move(transform.localPosition, () => { LevelMgr.NextLevel(); });
         }
 
         // move
@@ -117,21 +114,14 @@ public class Boss : Grid, IEntity, IUpdatable
         for (var i = 0; i < list.Count; ++i)
         {
             var p = list[i];
-            if (p is IGrid grid && InRange(grid.Renderer.bounds))
-            {
-                ((IEntity)p).Hp -= BulletDamage;
-            }
+            if (p is IGrid grid && InRange(grid.Renderer.bounds)) ((IEntity) p).Hp -= BulletDamage;
         }
-        
+
         if (Time.realtimeSinceStartup - LastTime >= Interval * 0.85f ||
             Time.realtimeSinceStartup - LastTime <= Interval * 0.15f)
-        {
             ChangeSprite(Attack);
-        }
         else
-        {
             ChangeSprite(Idle);
-        }
 
         // shoot bullet in interval
         if (Time.realtimeSinceStartup - LastTime >= Interval)
@@ -148,7 +138,7 @@ public class Boss : Grid, IEntity, IUpdatable
             AudioMgr.PlaySound(Game.BulletShootSound, transform);
         }
     }
-    
+
     private void ChangeSprite(Sprite sprite)
     {
         var sr = Renderer as SpriteRenderer;

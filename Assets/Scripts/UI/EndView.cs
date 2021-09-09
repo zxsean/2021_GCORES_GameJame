@@ -2,10 +2,9 @@
 
 public class EndView : MonoBehaviour
 {
-    [SerializeField]
-    private float speed;
-
     public RectTransform content;
+
+    [SerializeField] private float speed;
 
     private void Start()
     {

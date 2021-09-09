@@ -2,11 +2,6 @@
 
 public class Spike : Grid, IFloor, IUpdatable
 {
-    public FloorType Type { get; private set; }
-    public bool IsDestroy { get; private set; }
-    
-    public int Damage { get; private set; }
-
     public Spike(GameObject asset) : base(asset)
     {
         Type = ((FloorData) RawData).type;
@@ -15,6 +10,10 @@ public class Spike : Grid, IFloor, IUpdatable
         Damage = data.damage;
     }
 
+    public int Damage { get; }
+    public FloorType Type { get; }
+    public bool IsDestroy { get; private set; }
+
     public virtual void Update()
     {
         // 如果IEntity踩到了，那么就受伤
@@ -22,10 +21,7 @@ public class Spike : Grid, IFloor, IUpdatable
         for (var i = 0; i < list.Count; ++i)
         {
             var entity = list[i];
-            if (entity is IGrid grid && InRange(grid.Renderer.bounds))
-            {
-                entity.Hp -= Damage;
-            }
+            if (entity is IGrid grid && InRange(grid.Renderer.bounds)) entity.Hp -= Damage;
         }
     }
 }

@@ -3,16 +3,9 @@ using UnityEngine;
 
 public static class AudioMgr
 {
-    public static GameObject Root { get; set; }
-
     private static AudioSource musicSource;
-    private static List<Sound> soundSources = new List<Sound>();
-
-    private class Sound
-    {
-        public AudioSource source;
-        public Transform bind;
-    }
+    private static readonly List<Sound> soundSources = new List<Sound>();
+    public static GameObject Root { get; set; }
 
     public static void PlayMusic(AudioClip clip)
     {
@@ -22,11 +15,11 @@ public static class AudioMgr
             musicSource.loop = true;
             musicSource.playOnAwake = false;
         }
-        
+
         musicSource.clip = clip;
         musicSource.Play();
-    }       
-    
+    }
+
     public static void PlayContinueMusic(AudioClip clip)
     {
         if (musicSource == null)
@@ -36,26 +29,21 @@ public static class AudioMgr
             musicSource.playOnAwake = false;
         }
 
-        if (musicSource.clip == clip)
-        {
-            return;
-        }
-        
+        if (musicSource.clip == clip) return;
+
         musicSource.clip = clip;
         musicSource.Play();
     }
-    
+
     public static void PlaySound(AudioClip clip, Transform bind)
     {
         Sound freeSource = null;
         foreach (var source in soundSources)
-        {
             if (!source.source.isPlaying)
             {
                 freeSource = source;
                 break;
             }
-        }
 
         if (freeSource == null)
         {
@@ -77,13 +65,11 @@ public static class AudioMgr
     {
         Sound freeSource = null;
         foreach (var source in soundSources)
-        {
             if (source.source.clip == clip)
             {
                 freeSource = source;
                 break;
             }
-        }
 
         if (freeSource == null)
         {
@@ -98,15 +84,13 @@ public static class AudioMgr
 
     public static void StopSound(AudioClip clip)
     {
-        Sound stopSource = new Sound();
+        var stopSource = new Sound();
         foreach (var source in soundSources)
-        {
             if (source.source.clip == clip)
             {
                 stopSource = source;
                 break;
             }
-        }
 
         if (stopSource.source == null) return;
         stopSource.source.Stop();
@@ -114,10 +98,7 @@ public static class AudioMgr
 
     public static void StopAllSound()
     {
-        foreach (var source in soundSources)
-        {
-            source.source.Stop();
-        }
+        foreach (var source in soundSources) source.source.Stop();
     }
 
     public static void Update()
@@ -125,7 +106,6 @@ public static class AudioMgr
         //随距离平方衰减
         var pos = CameraMgr.CameraTrans.position;
         foreach (var source in soundSources)
-        {
             if (source.source.isPlaying && source.bind != null)
             {
                 var sourcePos = source.bind.position;
@@ -134,6 +114,11 @@ public static class AudioMgr
                 var volume = dis2 > 300 ? 0 : Mathf.Max(0.0f, 0.5f / (0.5f + dis2));
                 source.source.volume = Mathf.Min(0.5f, volume);
             }
-        }
+    }
+
+    private class Sound
+    {
+        public Transform bind;
+        public AudioSource source;
     }
 }

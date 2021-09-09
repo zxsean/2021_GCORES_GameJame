@@ -3,13 +3,7 @@ using System.Collections.Generic;
 
 public static class PoolMgr<T>
 {
-    private class PoolObj
-    {
-        public T obj;
-        public bool inUse;
-    }
-
-    private static Dictionary<string, List<PoolObj>> pool = new Dictionary<string, List<PoolObj>>();
+    private static readonly Dictionary<string, List<PoolObj>> pool = new Dictionary<string, List<PoolObj>>();
 
     public static T Get(string name, Func<T> alloc)
     {
@@ -18,17 +12,15 @@ public static class PoolMgr<T>
             list = new List<PoolObj>();
             pool.Add(name, list);
         }
-        
+
         for (var i = 0; i < list.Count; ++i)
-        {
             if (!list[i].inUse)
             {
                 list[i].inUse = true;
                 return list[i].obj;
             }
-        }
 
-        
+
         var obj = alloc();
         list.Add(new PoolObj
         {
@@ -40,22 +32,21 @@ public static class PoolMgr<T>
 
     public static void Return(string name, T obj)
     {
-        if (!pool.TryGetValue(name, out var list))
-        {
-            return;
-        }
-        
+        if (!pool.TryGetValue(name, out var list)) return;
+
         for (var i = 0; i < list.Count; ++i)
-        {
             if (list[i].obj.Equals(obj))
-            {
                 list[i].inUse = false;
-            }
-        }
     }
 
     public static void Clear()
     {
         pool.Clear();
+    }
+
+    private class PoolObj
+    {
+        public bool inUse;
+        public T obj;
     }
 }
