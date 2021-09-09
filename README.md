@@ -1,15 +1,11 @@
 # 2021_GCORES_GameJame
-GCORES GameJame Project.
+## 作品链接(欢迎投票):
+
+https://www.gcores.com/games/67515
 
 ![8](Pics/8.png)
 
 ![8](Pics/9.png)
-
-
-
-## 作品链接(欢迎投票):
-
-https://www.gcores.com/games/67515
 
 ### 视频链接:
 
